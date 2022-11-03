@@ -6,14 +6,15 @@ const Stack = createNativeStackNavigator();
 import BlogCreateForm from "./app/ChemicalManagement/BlogCreateForm";
 import ComplainCreateForm from "./app/ChemicalManagement/ComplainCreateForm";
 import EventCreateForm from "./app/ChemicalManagement/EventCreateForm";
+import BlogsPage from "./app/ChemicalManagement/BlogsPage";
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Blogs" component={BlogCreateForm} />
         <Stack.Screen name="Event" component={EventCreateForm} />
         <Stack.Screen name="Complain" component={ComplainCreateForm} />
+        <Stack.Screen name="Blogs" component={BlogCreateForm} />
       </Stack.Navigator>
     </NavigationContainer>
   );

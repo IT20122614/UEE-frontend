@@ -11,9 +11,22 @@ import {
   FlatList,
   Button,
 } from "react-native";
+import MultipleTextField from "./Common/MultipleTextField";
 
 export default function ComplainCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
+  const [address, setAddress] = React.useState("");
+
+  function addNewComplain() {
+    Alert.alert("Alert Title", "My Alert Msg", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
+  }
 
   return (
     <SafeAreaView style={styles.mainSheet}>
@@ -41,19 +54,19 @@ export default function ComplainCreateForm() {
         </View>
         <View>
           <Text style={styles.titleStyle}>Content</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder="Content here"
+          <MultipleTextField
             multiline
             numberOfLines={4}
+            onChangeText={(text) => setAddress(text)}
+            value={address}
+            style={styles.multiText}
+            placeholder="Content here"
           />
         </View>
         <View style={styles.createNewBtnMain}>
           <Button
             title="Create New"
-            onPress={() => Alert.alert("Cannot press this one")}
+            onPress={addNewComplain}
             style={styles.createNewBtn}
             color="#629c45"
           />
@@ -90,6 +103,12 @@ const styles = StyleSheet.create({
     padding: 10,
     outline: 1,
     borderBottomWidth: 2,
+    borderColor: "#629c45",
+  },
+  multiText: {
+    paddingLeft: 10,
+    outline: 1,
+    borderWidth: 1,
     borderColor: "#629c45",
   },
   createNewBtn: {

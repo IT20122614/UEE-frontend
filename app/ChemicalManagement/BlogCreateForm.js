@@ -10,10 +10,13 @@ import {
   ScrollView,
   FlatList,
   Button,
+  Alert,
 } from "react-native";
+import MultipleTextField from "./Common/MultipleTextField";
 
 export default function BlogCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
+  const [address, setAddress] = React.useState("");
 
   return (
     <SafeAreaView style={styles.mainSheet}>
@@ -41,13 +44,21 @@ export default function BlogCreateForm() {
         </View>
         <View>
           <Text style={styles.titleStyle}>Content</Text>
-          <TextInput
+          {/* <TextInput
             style={styles.input}
             onChangeText={onChangeNumber}
             value={number}
             placeholder="Content here"
             multiline
             numberOfLines={4}
+          /> */}
+          <MultipleTextField
+            multiline
+            numberOfLines={4}
+            onChangeText={(text) => setAddress(text)}
+            value={address}
+            style={styles.multiText}
+            placeholder="Content here"
           />
         </View>
         <View style={styles.createNewBtnMain}>
@@ -90,6 +101,12 @@ const styles = StyleSheet.create({
     padding: 10,
     outline: 1,
     borderBottomWidth: 2,
+    borderColor: "#629c45",
+  },
+  multiText: {
+    paddingLeft: 10,
+    outline: 1,
+    borderWidth: 1,
     borderColor: "#629c45",
   },
   createNewBtn: {
