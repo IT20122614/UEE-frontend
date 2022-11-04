@@ -11,7 +11,7 @@ import {
   FlatList,
   Button,
 } from "react-native";
-import BlogStructure from "./Common/BlogStructure";
+import EventStructure from "./Common/EventStructure";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const DATA = [
@@ -41,8 +41,8 @@ const DATA = [
   },
 ];
 
-export default function BlogsPage({ navigation }) {
-  const renderItem = ({ item }) => <BlogStructure title={item} />;
+export default function EventsPage({ navigation }) {
+  const renderItem = ({ item }) => <EventStructure title={item} />;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +61,7 @@ export default function BlogsPage({ navigation }) {
             name="plus"
             size={35}
             color="#26a303"
-            onPress={() => navigation.navigate("Blog")}
+            onPress={() => navigation.navigate("Event")}
           />
         </View>
       </View>
