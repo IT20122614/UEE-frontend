@@ -8,13 +8,12 @@ const Tab = createBottomTabNavigator();
 export default function BottomNavigationBar() {
     return (
         <Tab.Navigator screenOptions={{
-            tabBarActiveTintColor: "white",
-            tabBarActiveBackgroundColor: "green",
-            tabBarInactiveTintColor: "black",
-            tabBarInactiveBackgroundColor: "#dcfcdc",
+            tabBarActiveTintColor: "black",
+            tabBarInactiveTintColor: "#969696",
             tabBarIconStyle: { display: "none" },
-            tabBarStyle: { height: 50 },
-            tabBarLabelStyle: { fontSize: 12, marginBottom: 13, fontWeight: '500' }
+            tabBarStyle: { paddingVertical: 0, backgroundColor: 'white', position: 'absolute', height: 54 },
+            tabBarLabelStyle: { fontSize: 12, marginBottom: 13, fontWeight: '500', paddingBottom: 3 },
+            tabBarItemStyle: { backgroundColor: '#00ff00', margin: 1, borderRadius: 5 }
         }}>
             <Tab.Screen name="Recyclable Items List" component={RecyclableItemsList} />
             <Tab.Screen name="Add Recyclable Item" component={AddRecyclableItem} />
