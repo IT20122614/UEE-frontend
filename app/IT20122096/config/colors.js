@@ -9,4 +9,5 @@ export default {
   danger: "red",
   limeGreen: "#D6FF80",
   lightGreen: "#E9FAC7",
+  red:"#C3141F"
 };

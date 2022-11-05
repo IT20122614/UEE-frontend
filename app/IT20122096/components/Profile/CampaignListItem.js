@@ -3,14 +3,11 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import colors from '../../config/colors';
 import { translate } from '../common/translator';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-export default function CampaignListItem() {
+export default function CampaignListItem({ campaign, onPress }) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/campaign.jpg")}
-        />
+        <Image style={styles.image} source={campaign.image} />
       </View>
       <View style={styles.details}>
         <View style={styles.items}>
@@ -19,9 +16,9 @@ export default function CampaignListItem() {
           <Text style={styles.titleText}>{translate("Status")}</Text>
         </View>
         <View style={styles.items}>
-          <Text style={styles.contentText}>Gampaha</Text>
-          <Text style={styles.contentText}>2022-11-04</Text>
-          <Text style={styles.contentText}>PENDING</Text>
+          <Text style={styles.contentText}>{campaign.place}</Text>
+          <Text style={styles.contentText}>{campaign.date}</Text>
+          <Text style={styles.contentText}>{campaign.status}</Text>
         </View>
       </View>
       <View style={styles.icon}>
@@ -29,6 +26,7 @@ export default function CampaignListItem() {
           name={"arrow-forward-ios"}
           size={30}
           color={colors.primary}
+          onPress={onPress}
         />
       </View>
     </View>
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor:colors.lightGreen
   },
   imageContainer: {},
-  image: { width: 100, height: 65 },
+  image: { width: 100, height: 60 },
   details: {
     flex: 1,
     flexDirection: "row",
@@ -63,8 +61,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontWeight: "bold",
     color: colors.primary,
-    fontSize: 11,
+    fontSize: 12,
   },
-  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 11 },
+  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 12 },
   icon: {},
 });

@@ -6,9 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 i18n.fallbacks = true;
 i18n.translations = { en, sn };
-i18n.locale = AsyncStorage.getItem("locale")
-  ? Localization.locale
-  : AsyncStorage.getItem("locale");
+i18n.locale = Localization.locale
 
 export  function translate(txt) {
   return i18n.t(txt)

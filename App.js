@@ -8,8 +8,7 @@ export default function App() {
   AsyncStorage.setItem("locale","en");
   return (
     
-    <NavigationContainer>
-      
+    <NavigationContainer>   
       <AppNavigator />
     </NavigationContainer>
   );

@@ -10,5 +10,12 @@ export default Object.freeze({
   ALL_CAMPAIGNS: "All Campaign",
   SELECTED_POST: "Post",
   COMMENTS: "Comments",
-  NEW_CAMPAIGN:"Host"
+  NEW_CAMPAIGN: "Host",
+  CAMPAIGNS_YOU_HOST: "HostCampaigns",
+  MY_POST: "MyPost",
+  POINTS_HISTORY: "PointsHistory",
+  SELECTED_MY_CAMPAIGN: "SelectedMyCampaign",
+  SELECTED_MY_POSTS: "SelectedMyPosts",
+  Attendence: "Attendence",
+  CREATE_POST:"CreatePost"
 });
