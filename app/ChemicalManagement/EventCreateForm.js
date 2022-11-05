@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,10 +14,14 @@ import {
 } from "react-native";
 import MultipleTextField from "./Common/MultipleTextField";
 import Icon from "react-native-vector-icons/FontAwesome";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function EventCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
   const [address, setAddress] = React.useState("");
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
 
   function addNewEvents() {
     Alert.alert("Alert Title", "My Alert Msg", [
@@ -29,6 +33,22 @@ export default function EventCreateForm() {
       { text: "OK", onPress: () => console.log("OK Pressed") },
     ]);
   }
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    // for iOS, add a button that closes the picker
+
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
 
   return (
     <SafeAreaView style={styles.mainSheet}>
@@ -72,14 +92,29 @@ export default function EventCreateForm() {
               <View style={styles.box1}>
                 <TextInput
                   style={styles.dateInput}
-                  onChangeText={onChangeNumber}
-                  value={number}
+                  onChangeText={setDate}
+                  value={date.toDateString()}
                   placeholder="dd/mm/yyyy"
                 />
               </View>
               <View style={[styles.box2]}>
-                <Icon name="calendar" size={35} color="#629c45" />
+                <Icon
+                  name="calendar"
+                  size={35}
+                  color="#629c45"
+                  onPress={showDatepicker}
+                />
               </View>
+
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
             </View>
           </View>
           <View>
