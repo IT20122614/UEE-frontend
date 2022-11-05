@@ -9,7 +9,7 @@ import {
   fetchUser,
   fetchUserPosts,
   fetchUserFollowing,
-  clearData
+  clearData,
 } from "../redux/actions/index";
 
 import FeedScreen from "./main/Feed";
@@ -18,8 +18,10 @@ import SearchScreen from "./main/Search";
 import { getAuth } from "firebase/auth";
 
 const EmptyScreen = () => {
-  return(null);
+  return null;
 };
+
+let search = EmptyScreen;
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -27,17 +29,47 @@ export class Main extends Component {
   componentDidMount() {
     this.props.clearData();
     this.props.fetchUser();
+    this.search();
     this.props.fetchUserPosts();
     this.props.fetchUserFollowing();
   }
 
+  search() {
+    if (getAuth().currentUser.uid == "fWoc7UcF7yMD8Gqbf0TUDfe0eJq1") {
+      search = (
+        <Tab.Screen
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
+              event.preventDefault();
+              navigation.navigate("Add");
+            },
+          })}
+          name="AddContainer"
+          component={EmptyScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="plus-box"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      );
+    }
+  }
+
   render() {
+    console.log(search);
+
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Tab.Navigator initialRouteName="Feed" labeled={false}>
           <Tab.Screen
             name="Feed"
             component={FeedScreen}
+            navigation={this.props.navigation}
             options={{
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -52,25 +84,6 @@ export class Main extends Component {
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="magnify"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            listeners={({ navigation }) => ({
-              tabPress: (event) => {
-                event.preventDefault();
-                navigation.navigate("Add");
-              },
-            })}
-            name="AddContainer"
-            component={EmptyScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="plus-box"
                   color={color}
                   size={size}
                 />
@@ -98,6 +111,7 @@ export class Main extends Component {
               ),
             }}
           />
+          {search}
         </Tab.Navigator>
       </View>
     );

@@ -17,14 +17,13 @@ const store = configureStore({
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyAQqRGZ48D299XsHWcvrdIfLw-nQ256K2s",
-  authDomain: "uee-project-29d8d.firebaseapp.com",
-  databaseURL: "https://uee-project-29d8d-default-rtdb.firebaseio.com",
-  projectId: "uee-project-29d8d",
-  storageBucket: "uee-project-29d8d.appspot.com",
-  messagingSenderId: "861692344816",
-  appId: "1:861692344816:web:fa928964c773a8a9118535",
-  measurementId: "G-B8TCR2FF64"
+  apiKey: "AIzaSyCDtpSxob6pDVessdeBVZw9LjJYXS6EoEs",
+  authDomain: "instagramclone-ae4f9.firebaseapp.com",
+  projectId: "instagramclone-ae4f9",
+  storageBucket: "instagramclone-ae4f9.appspot.com",
+  messagingSenderId: "388702203990",
+  appId: "1:388702203990:web:67ea872fbb5acedca8cbf7",
+  measurementId: "G-3KFST5WPFB",
 };
 
 // Initialize Firebase
@@ -46,7 +45,7 @@ const Stack = createStackNavigator();
 
 import React, { Component } from "react";
 
-export default class App extends Component {
+export default class StartUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
