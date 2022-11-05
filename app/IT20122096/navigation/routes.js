@@ -9,5 +9,6 @@ export default Object.freeze({
   CONTRIBUTION_FORM: "ContributionForm",
   ALL_CAMPAIGNS: "All Campaign",
   SELECTED_POST: "Post",
-  COMMENTS:"Comments"
+  COMMENTS: "Comments",
+  NEW_CAMPAIGN:"Host"
 });

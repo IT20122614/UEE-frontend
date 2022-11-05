@@ -11,6 +11,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ProfileNavigator from './ProfileNavigator';
 import AllShramadanaNavigator from './AllShramadanaNavigator';
 import PostsNavigator from './PostsNavigator';
+import HostNewCampaignNavigator from './HostNewCampaignNavigator';
 
 const Tab = createBottomTabNavigator();
 export default function CampaignsNavigator() {
@@ -52,7 +53,7 @@ export default function CampaignsNavigator() {
       />
       <Tab.Screen
         name="Create"
-        component={CreateCampaignHost}
+        component={HostNewCampaignNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

@@ -16,7 +16,7 @@ export default function PostCard({ item, onPress }) {
       <View style={[styles.body]}>
         <View style={styles.image}>
           <Image
-            style={{ width: 177, height: 150, borderRadius: 10 }}
+            style={{ width: 190, height: 150, borderRadius: 10 }}
             source={item.image}
           />
         </View>
@@ -31,11 +31,11 @@ export default function PostCard({ item, onPress }) {
               size={33}
               color={colors.primary}
             />
-            <Text style={styles.contentText}>1000</Text>
+            <Text style={[styles.contentText,{fontSize: 13}]}>1000</Text>
           </View>
           <View style={styles.comment}>
             <AntDesign name="message1" size={30} color={colors.primary} />
-            <Text style={styles.contentText}>1000</Text>
+            <Text style={[styles.contentText,{fontSize: 13}]}>1000</Text>
           </View>
         </View>
       </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   body: {
     borderRadius: 10,
     height: 208,
-    width: 180,
+    width: 190,
     display: "flex",
     elevation: 5,
   },
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   contentText: {
     paddingBottom: 5,
     paddingLeft: 10,
-    fontSize: 15,
+    fontSize: 14,
     color: colors.primary,
   },
 });

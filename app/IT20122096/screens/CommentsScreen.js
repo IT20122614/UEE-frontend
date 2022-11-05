@@ -1,20 +1,27 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import Comment from '../components/comments/Comment'
 import Screen from '../components/common/Screen'
 
 export default function CommentsScreen({ route }) {
-  const post=route.params.post
+  const post = route.params.post;
+  const comments = [...post.comments]
   return (
     <Screen>
-      <View style={{display:"flex",alignItems:"center"}}>
-        {/*<Comment comment={post.comments[0]} />*/}
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          {comments.map((comment) => {
+            return <Comment key={comment.id} comment={comment} />;
+          })}
+        </View>
+      </ScrollView>
     </Screen>
   );
 }
 const styles = StyleSheet.create({
   container: {
-  
-}
-})
+    display: "flex",
+    alignItems: "center",
+    marginTop:20
+  },
+});

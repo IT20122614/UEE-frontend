@@ -7,8 +7,8 @@ import colors from "../../config/colors";
 export default function AppButton({ title, onPress, style, fontSize,icon }) {
   return (
     <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-      <Text style={[styles.text, { fontSize: fontSize }]}>{title}</Text>
       {icon}
+      <Text style={[styles.text, { fontSize: fontSize }]}>{title}</Text>
     </TouchableOpacity>
   );
 }

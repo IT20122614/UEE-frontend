@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    alignItems:"center"
+    alignItems: "center",
+    marginBottom:15
   },
   comment: {
     borderWidth: 1,

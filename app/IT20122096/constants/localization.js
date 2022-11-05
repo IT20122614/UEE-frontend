@@ -2,10 +2,14 @@ const en = {
   languageSelector: "English",
   Save: "SAVE",
   OK: "OK",
-  Comments:"COMMENTS",
+  Comments: "COMMENTS",
+  Submit: "SUBMIT",
 
   All_Shramadana_Campaigns: "ALL SHRAMADANA CAMPAIGNS",
-  Posts:"POSTS",
+  Posts: "POSTS",
+  HostNewForm: "HOST A NEW SHRAMADANA CAMPAIGN",
+  LeaderBoard: "MONTHLY POINTS LEADERBOARD",
+  Profile: "PROFILE",
 
   Location: "LOCATION",
   Place: "PLACE",
@@ -23,16 +27,28 @@ const en = {
   Contribution: "How Can You Contribute?",
   CYSsnackbar: "Your Contribution Saved",
 
-  Contributors:"CONTRIBUTORS"
+  Contributors: "CONTRIBUTORS",
+  MyContributions: "MY CONTRIBUTIONS",
+
+  CCHsnackbar: "CAMAPAIGN IS SAVED.",
+
+  CampaignsYouHost: "CAMPAIGNS YOU HOST",
+  MyPosts: "MY POSTS",
+  PointHistory: "POINTS HISTORY",
+  SeeMore:"See More"
 };
 const sn = {
   languageSelector: "සිංහල",
   Save: "සුරකින්න",
   OK: "හරි",
   Comments: "අදහස්",
+  Submit: "SUBMIT",
 
   All_Shramadana_Campaigns: "සියලුම ශ්‍රමදාන ව්‍යාපාර",
   Posts: "පෝස්ට්",
+  HostNewForm: "නව ශ්‍රමදාන ව්‍යාපාරයක් පවත්වන්න",
+  LeaderBoard: "මාසික ලකුණු ප්‍රමුඛ පුවරුව",
+  Profile: "ගිණුම",
 
   Location: "ස්ථානය",
   Place: "ස්ථානය",
@@ -51,6 +67,14 @@ const sn = {
   CYSsnackbar: "ඔබගේ දායකත්වය සුරැකිණි",
 
   Contributors: "දායකයන්",
+  MyContributions: "මගේ දායකත්වය",
+
+  CCHsnackbar: "ප්‍රචාරණය සුරකින ලදී.",
+
+  CampaignsYouHost: "ඔබ පවත්වන ව්‍යාපාර",
+  MyPosts: "මගේ පෝස්ට්",
+  PointHistory: "ලකුණු ඉතිහාසය",
+  SeeMore: "තවත් බලන්න",
 };
 
 export { en, sn };

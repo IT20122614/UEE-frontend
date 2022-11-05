@@ -9,7 +9,7 @@ export default function CampaignCard({item,onPress}) {
       <View style={styles.body}>
         <View style={styles.image}>
           <Image
-            style={{ width: 177, height: 150, borderRadius: 10 }}
+            style={{ width: 190, height: 155, borderRadius: 10 }}
             source={item.image}
           />
         </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   body: {
     borderRadius: 10,
     height: 230,
-    width: 180,
+    width: 190,
     display: "flex",
     elevation: 5,
   },
@@ -44,17 +44,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: colors.lightGreen,
+    paddingBottom:8
   },
   items: {
     flex: 1,
     paddingTop: 5,
-    paddingBottom: 8,
+    paddingBottom: 5,
   },
   titleText: {
-    paddingBottom: 5,
+    paddingBottom:3,
     paddingLeft: 10,
     fontWeight: "bold",
     color: colors.primary,
   },
-  contentText: { paddingBottom: 5, color: colors.primary },
+  contentText: { paddingBottom: 3, color: colors.primary },
 });
