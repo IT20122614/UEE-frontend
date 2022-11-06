@@ -52,7 +52,9 @@ export default function CreateCampaignHost({ navigation }) {
             onSubmit={(values) => handleSubmit(values)}
             validationSchema={validationSchema}
           >
-            <AppFormImagePicker name={"images"} />
+            <View style={{marginLeft:15}}>
+              <AppFormImagePicker name={"images"} />
+            </View>
             <View style={styles.fields}>
               <Text style={styles.text}>{translate("Place")}</Text>
               <AppFormField maxLength={255} name="place" />

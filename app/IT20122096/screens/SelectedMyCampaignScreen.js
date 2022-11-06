@@ -51,7 +51,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
                 styles.postbtn,
                 selected !== "FINISH" && { backgroundColor: colors.lightGray },
               ]}
-              fontSize={15}
+              fontSize={18}
               onPress={() => {
                 navigation.navigate(routes.CREATE_POST)
               }}
@@ -186,16 +186,16 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 300,
-    height: 35,
+    height:40,
     borderRadius: 5,
   },
   postbtn: {
-    width: 100,
-    height: 30,
+    width: 110,
+    height: 40,
     borderRadius: 5,
     marginTop: 10,
     alignSelf: "flex-end",
-    marginRight: 10,
+    marginRight: 15,
   },
   changebtn: {
     width: 120,

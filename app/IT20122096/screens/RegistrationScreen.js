@@ -100,12 +100,13 @@ const styles = StyleSheet.create({
   text: {
     color: colors.primary,
     fontSize: 15,
+    marginTop: 10,
   },
   submitbutton: {
     width: 130,
     height: 40,
     borderRadius: 10,
-
+    marginTop: 40,
     color: colors.white,
     marginRight: 50,
   },

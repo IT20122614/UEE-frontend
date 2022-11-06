@@ -20,7 +20,7 @@ export default function PostsListItem({ post, onPress }) {
           <View style={styles.like}>
             <MaterialCommunityIcons
               name="cards-heart"
-              size={23}
+              size={30}
               color={colors.primary}
               style={{ marginRight: 5 }}
             />
@@ -29,7 +29,7 @@ export default function PostsListItem({ post, onPress }) {
           <View style={styles.comment}>
             <AntDesign
               name="message1"
-              size={23}
+              size={30}
               color={colors.primary}
               style={{ marginRight: 5 }}
             />
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGreen,
   },
   imageContainer: {},
-  image: { width: 100, height: 60 },
+  image: { width: 120, height: 80 },
   details: {
     flex: 1,
   },
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontWeight: "bold",
     color: colors.primary,
-    fontSize: 15,
+    fontSize: 18,
     marginRight: 20,
   },
-  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 15 },
+  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 18 },
   icons: {
     flexDirection: "row",
   },

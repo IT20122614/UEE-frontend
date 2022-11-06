@@ -10,7 +10,7 @@ export default function AttendenceScreen({ route }) {
   const campaign = route.params.campaign;
   const [isChecked, setChecked] = useState(false);
 
-
+console.log(campaign)
   const mark = () => {
     setChecked(!isChecked);
   };
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   savebtn: {
     width: 150,
-    height: 30,
+    height: 40,
     borderRadius: 5,
     alignSelf: "flex-end",
     margin: 10,

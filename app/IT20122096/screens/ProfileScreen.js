@@ -18,6 +18,7 @@ import colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CampaignListItem from "../components/Profile/CampaignListItem";
 import PostsListItem from "../components/Profile/PostsListItem";
+import PointListItem from "../components/Profile/PointListItem";
 translate;
 
 const campaigns = [
@@ -697,12 +698,44 @@ const posts = [
     ],
   },
 ];
+const points = [
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+  {
+    year: "2022",
+    month: "JANUARY",
+    point: 150,
+  },
+];
 
 export default function ProfileScreen({ navigation }) {
-  let [locale, setLocale] = useState(Localization.locale);
-  i18n.fallbacks = true;
-  i18n.translations = { en, sn };
-  i18n.locale = locale;
+  // let [locale, setLocale] = useState(Localization.locale);
+  // i18n.fallbacks = true;
+  // i18n.translations = { en, sn };
+  // i18n.locale = locale;
   return (
     <Screen>
       <ScrollView>
@@ -731,7 +764,7 @@ export default function ProfileScreen({ navigation }) {
                   navigation.navigate(routes.CAMPAIGNS_YOU_HOST);
                 }}
               >
-                {translate("SeeMore")} {">"}
+                {translate("SeeMore")}
               </Text>
             </View>
             <View>
@@ -761,7 +794,7 @@ export default function ProfileScreen({ navigation }) {
                   navigation.navigate(routes.MY_POST);
                 }}
               >
-                {translate("SeeMore")} {">"}
+                {translate("SeeMore")}
               </Text>
             </View>
             <View>
@@ -786,41 +819,20 @@ export default function ProfileScreen({ navigation }) {
               <Text
                 style={styles.email}
                 onPress={() => {
-                  navigation.navigate(routes.POINTS_HISTORY);
+                  navigation.navigate(routes.POINTS_HISTORY,{points});
                 }}
               >
-                {translate("SeeMore")} {">"}
+                {translate("SeeMore")}
               </Text>
             </View>
             <View>
-              <View style={styles.pointCard}>
-                <Text style={[styles.pointText, { flex: 1.5 }]}>2022</Text>
-                <Text style={[styles.pointText, { flex: 4 }]}>January</Text>
-                <Text
-                  style={[
-                    styles.pointText,
-                    { flex: 0.5, alignSelf: "flex-end" },
-                  ]}
-                >
-                  150
-                </Text>
-              </View>
-              <View style={styles.pointCard}>
-                <Text style={[styles.pointText, { flex: 1.5 }]}>2022</Text>
-                <Text style={[styles.pointText, { flex: 4 }]}>January</Text>
-                <Text
-                  style={[
-                    styles.pointText,
-                    { flex: 0.5, alignSelf: "flex-end" },
-                  ]}
-                >
-                  150
-                </Text>
-              </View>
+              {points.map((point, index) => 
+               index === 0 || index === 1 ? ( <PointListItem key={index} item={point} />):null
+              )}
             </View>
           </View>
-          <View>
-            <Text>{i18n.t("languageSelector")}</Text>
+          {/* <View>
+            <Text>{translate("languageSelector")}</Text>
             <AppButton
               title={"English"}
               onPress={() => {
@@ -837,7 +849,7 @@ export default function ProfileScreen({ navigation }) {
                 //navigation.navigate(routes.ALL_CAMPAIGNS);
               }}
             />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </Screen>
@@ -866,14 +878,15 @@ const styles = StyleSheet.create({
   name: {
     color: colors.primary,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 5,
   },
   email: {
     color: colors.primary,
     marginBottom: 5,
+    fontSize: 16,
   },
-  point: { color: colors.primary, fontSize: 16 },
+  point: { color: colors.primary, fontSize: 18 },
   campaigns: {
     elevation: 5,
     borderColor: "black",
@@ -889,6 +902,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 5,
     paddingBottom: 0,
+    paddingTop: 10,
   },
   pointCard: {
     flexDirection: "row",
@@ -902,6 +916,6 @@ const styles = StyleSheet.create({
   },
   pointText: {
     color: colors.primary,
-    fontSize: 16,
+    fontSize: 20,
   },
 });

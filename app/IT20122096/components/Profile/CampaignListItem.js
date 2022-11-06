@@ -24,7 +24,7 @@ export default function CampaignListItem({ campaign, onPress }) {
       <View style={styles.icon}>
         <MaterialIcons
           name={"arrow-forward-ios"}
-          size={30}
+          size={35}
           color={colors.primary}
           onPress={onPress}
         />
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor:colors.lightGreen
   },
   imageContainer: {},
-  image: { width: 100, height: 60 },
+  image: { width: 120, height: 80 },
   details: {
     flex: 1,
     flexDirection: "row",
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontWeight: "bold",
     color: colors.primary,
-    fontSize: 12,
+    fontSize: 15,
   },
-  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 12 },
+  contentText: { paddingBottom: 2, color: colors.primary, fontSize: 15 },
   icon: {},
 });
