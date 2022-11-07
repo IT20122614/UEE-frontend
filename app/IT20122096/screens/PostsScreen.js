@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/common/Screen";
 import colors from "../config/colors";
 import { FlatGrid } from "react-native-super-grid";
@@ -9,7 +9,10 @@ import routes from "../navigation/routes";
 import AppButton from "../components/common/AppButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-const posts = [
+import { getAllPosts } from "../api/postService";
+import * as SecureStore from "expo-secure-store";
+
+const posts1 = [
   {
     id: "1",
     campaignId: "123456",
@@ -135,18 +138,44 @@ const posts = [
 ];
 
 export default function PostsScreen({ navigation }) {
+  const [posts, setPosts] = useState([]);
+  const [contributors,setContributore]=useState([])
   const [isFilterd, SetIsFilterd] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getPosts();
+  }, []);
+
+  const getPosts = async () => {
+    const userId = await SecureStore.getItemAsync("userId");
+    setUserId(userId);
+    await getAllPosts()
+      .then(({ data }) => {
+        setPosts(data);
+        setRefreshing(false);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const filter = () => {
     let filteredPosts = [];
     if (isFilterd) {
       filteredPosts = posts.filter((post) =>
-        post.contributors.filter((con) => con.userId === "chamath Kavindya")
+        post.contributors
       );
     } else {
       filteredPosts = posts;
     }
     return filteredPosts;
   };
+
   // console.log(
   //   posts.filter((post) =>
   //     post.contributors.
@@ -184,7 +213,9 @@ export default function PostsScreen({ navigation }) {
               }}
             />
           )}
-          refreshing={true}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </Screen>

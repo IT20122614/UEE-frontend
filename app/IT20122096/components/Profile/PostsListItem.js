@@ -9,7 +9,7 @@ export default function PostsListItem({ post, onPress }) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={post.image} />
+        <Image style={styles.image} source={{ uri: post.image }} />
       </View>
       <View style={styles.details}>
         <View style={{ flexDirection: "row" }}>

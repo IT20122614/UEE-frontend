@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/common/Screen";
 import colors from "../config/colors";
@@ -11,11 +11,15 @@ import AppForm from "../components/common/AppForm";
 import AppFormField from "../components/common/AppFormField";
 import * as Yup from "yup";
 import AppButton from "../components/common/AppButton";
+import { deletePost } from "../api/postService";
+import { Snackbar } from "react-native-paper";
 
 export default function SelectedMyPostScreen({ navigation, route }) {
   const post = route.params.item;
   const cont = [...post.contributors];
   const list = cont.map((c) => c.name);
+  const [snakVisible, SetSnackVisible] = useState(false);
+
   const validationSchema = Yup.object().shape({
     comment: Yup.string(),
   });
@@ -23,12 +27,20 @@ export default function SelectedMyPostScreen({ navigation, route }) {
   const handleSubmit = (value) => {
     navigation.navigate(routes.LOGIN);
   };
+  const deletePosts=async(id) => {
+    await deletePost(id).then(() => {
+      SetSnackVisible(true);
+      setTimeout(() => {
+        navigation.navigate(routes.MY_POST);
+      }, 2500);
+    }).catch((error)=>{console.log(error)})
+  }
   return (
     <Screen>
       <ScrollView verticle>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={post.image} style={styles.image} />
+            <Image source={{ uri: post.image }} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
             <View style={{ display: "flex", flexDirection: "row" }}>
@@ -71,6 +83,9 @@ export default function SelectedMyPostScreen({ navigation, route }) {
                   color={colors.white}
                 />
               }
+              onPress={() => {
+                deletePosts(post.id)
+              }}
             />
             <View style={styles.description}>
               <Text style={styles.titleText}>{translate("Description")}</Text>
@@ -141,6 +156,23 @@ export default function SelectedMyPostScreen({ navigation, route }) {
             </View>
           </View>
         </View>
+        <Snackbar
+          visible={snakVisible}
+          onDismiss={() => SetSnackVisible(false)}
+          duration={2000}
+          action={{
+            label: translate("OK"),
+            labelStyle: { color: colors.limeGreen, fontSize: 18 },
+            onPress: () => {
+              SetSnackVisible(false);
+            },
+          }}
+          style={{ backgroundColor: colors.black }}
+        >
+          <View>
+            <Text style={styles.snackbar}>Post deleted</Text>
+          </View>
+        </Snackbar>
       </ScrollView>
     </Screen>
   );
@@ -215,7 +247,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignSelf: "flex-end",
     marginTop: -20,
-    backgroundColor:colors.red
-    
-  }
+    backgroundColor: colors.red,
+  },
+  snackbar: {
+    color: colors.limeGreen,
+    fontSize: 18,
+  },
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import AppButton from './AppButton';
 import { useFormikContext } from "formik";
 
-function SubmitButton({ title, style, fontSize }) {
+function SubmitButton({ title, style, fontSize, icon }) {
   const { handleSubmit } = useFormikContext();
   return (
     <AppButton
@@ -10,6 +10,7 @@ function SubmitButton({ title, style, fontSize }) {
       style={style}
       fontSize={fontSize}
       onPress={handleSubmit}
+      icon={icon}
     />
   );
 }

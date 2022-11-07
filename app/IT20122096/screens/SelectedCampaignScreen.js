@@ -42,7 +42,7 @@ export default function SelectedCampaignScreen({ navigation, route }) {
                 style={styles.button}
                 fontSize={18}
                 onPress={() => {
-                  navigation.navigate(routes.CONTRIBUTION_FORM);
+                  navigation.navigate(routes.CONTRIBUTION_FORM,{campaign});
                 }}
               />
             </View>

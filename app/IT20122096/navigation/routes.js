@@ -8,6 +8,7 @@ export default Object.freeze({
   SELECTED_CAMPAIGN: "Campaign",
   CONTRIBUTION_FORM: "ContributionForm",
   ALL_CAMPAIGNS: "All Campaign",
+  ALL_POSTS:"Posts",
   SELECTED_POST: "Post",
   COMMENTS: "Comments",
   NEW_CAMPAIGN: "Host",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import CampaignCard from "../components/AllShramadanaListScreen/CampaignCard";
 import Screen from "../components/common/Screen";
 import colors from "../config/colors";
@@ -123,6 +123,8 @@ const campaigns1 = [
 
 export default function CampaignYouHostScreen({ route, navigation }) { 
   const [campaigns, setCampaigns] = useState(route.params.campaigns);
+  const [refreshing, setRefreshing] = React.useState(false);
+  
   return (
     <Screen>
       <View style={styles.body}>

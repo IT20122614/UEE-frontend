@@ -6,10 +6,10 @@ export default function Comment({ comment }) {
   return (
     <View style={styles.container}>
       <View>
-        <Image source={comment.image} style={styles.image} />
+        <Image source={{uri:comment.user.image}} style={styles.image} />
       </View>
       <View style={styles.comment}>
-        <Text style={styles.titleText}>{comment.userName}</Text>
+        <Text style={styles.titleText}>{comment.user.name}</Text>
         <Text style={styles.contentText}>{comment.comment}</Text>
       </View>
     </View>

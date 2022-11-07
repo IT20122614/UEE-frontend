@@ -53,7 +53,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
               ]}
               fontSize={18}
               onPress={() => {
-                navigation.navigate(routes.CREATE_POST);
+                navigation.navigate(routes.CREATE_POST,{campaign});
               }}
               disabled={selected === "FINISH" ? false : true}
               icon={

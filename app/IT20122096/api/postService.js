@@ -1,8 +1,8 @@
 import http from "./httpService";
 import * as SecureStore from "expo-secure-store";
-const endpoint = "/campaign";
+const endpoint = "/post";
 
-export async function saveCampaign(data) {
+export async function savePost(data) {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
 
@@ -10,37 +10,37 @@ export async function saveCampaign(data) {
     headers: { Authorization: header },
   });
 }
-
-export async function getAllCampaign() {
+export async function getAllPosts() {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
 
-  return await http.get(endpoint + "/getAllCampaigns", {
+  return await http.get(endpoint + "/getAllPosts", {
     headers: { Authorization: header },
   });
 }
-export async function getAllCampaignsByUserId() {
+export async function getAllPostsByUserId() {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
   const userId = await SecureStore.getItemAsync("userId");
+  console.log("userId", userId);
 
-  return await http.get(endpoint + `/getAllCampaignsByUser/${userId}`, {
+  return await http.get(endpoint + `/getAllPostsByUserId/${userId}`, {
     headers: { Authorization: header },
   });
 }
-export async function getAllContributors(campaignId) {
+export async function deletePost(postId) {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
 
-  return await http.get(endpoint + `/getAllContributors/${campaignId}`, {
+  return await http.delete(endpoint + `/deletePost/${postId}`, {
     headers: { Authorization: header },
   });
 }
-export async function saveContribution(data) {
+export async function addComment(data) {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
 
-  return await http.post(endpoint + "/addContribution", data, {
+  return await http.post(endpoint + "/addComment", data, {
     headers: { Authorization: header },
   });
 }

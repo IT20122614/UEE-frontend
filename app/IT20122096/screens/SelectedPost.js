@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Screen from "../components/common/Screen";
 import colors from "../config/colors";
 import { translate } from "../components/common/translator";
@@ -10,24 +17,51 @@ import { FlatGrid } from "react-native-super-grid";
 import AppForm from "../components/common/AppForm";
 import AppFormField from "../components/common/AppFormField";
 import * as Yup from "yup";
+import SubmitButton from "../components/common/SubmitBUtton";
+import * as SecureStore from "expo-secure-store";
+import { addComment } from "../api/postService";
 
-export default function SelectedPost({ navigation,route }) {
+export default function SelectedPost({ navigation, route }) {
   const post = route.params.item;
   const cont = [...post.contributors];
   const list = cont.map((c) => c.name);
-  const validationSchema = Yup.object().shape({
-    comment:Yup.string()
-  });
+  const [refreshing, setRefreshing] = React.useState(false);
 
-const handleSubmit = (value) => {
-  navigation.navigate(routes.LOGIN);
-};
+  const validationSchema = Yup.object().shape({
+    comment: Yup.string(),
+  });
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const handleSubmit = async (value, { resetForm }) => {
+    const userId = await SecureStore.getItemAsync("userId");
+    const data = {
+      userId: userId,
+      postId: post.id,
+      comment: value.comment,
+    };
+
+    await addComment(data).then(() => {
+     navigation.navigate(routes.ALL_POSTS)
+    }).catch((error)=>console.log(error))
+
+    resetForm();
+  };
   return (
     <Screen>
-      <ScrollView verticle>
+      <ScrollView
+        verticle
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={post.image} style={styles.image} />
+            <Image source={{ uri: post.image }} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
             <View style={{ display: "flex", flexDirection: "row" }}>
@@ -48,11 +82,15 @@ const handleSubmit = (value) => {
                     size={33}
                     color={colors.primary}
                   />
-                  <Text style={styles.contentText}>5</Text>
+                  <Text style={[styles.contentText, { marginLeft: 5 }]}>
+                    {post.likeCount}
+                  </Text>
                 </View>
                 <View style={styles.comment}>
                   <AntDesign name="message1" size={30} color={colors.primary} />
-                  <Text style={styles.contentText}>12</Text>
+                  <Text style={[styles.contentText, { marginLeft: 5 }]}>
+                    {post.commentsCount}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -77,7 +115,12 @@ const handleSubmit = (value) => {
                   <Text style={[styles.titleText, { padding: 5 }]}>
                     {translate("Comments")}
                   </Text>
-                  <Text style={[{ padding: 5, color: colors.primary }]} onPress={()=>{navigation.navigate(routes.COMMENTS,{post})}}>
+                  <Text
+                    style={[{ padding: 5, color: colors.primary }]}
+                    onPress={() => {
+                      navigation.navigate(routes.COMMENTS, { post });
+                    }}
+                  >
                     {post.commentsCount + " "}
                     {translate("Comments").toLowerCase() + " > "}
                   </Text>
@@ -87,8 +130,8 @@ const handleSubmit = (value) => {
                     initialValues={{
                       comment: "",
                     }}
-                    onSubmit={(values) => {
-                      handleSubmit(values);
+                    onSubmit={(values, { resetForm }) => {
+                      handleSubmit(values, { resetForm });
                     }}
                     validationSchema={validationSchema}
                   >
@@ -107,11 +150,24 @@ const handleSubmit = (value) => {
                         height={60}
                         width={290}
                       />
-                      <MaterialCommunityIcons
-                        name="send"
-                        size={33}
-                        color={colors.primary}
-                        style={{ marginLeft: 10 }}
+                      <SubmitButton
+                        title={""}
+                        icon={
+                          <MaterialCommunityIcons
+                            name="send"
+                            size={33}
+                            color={colors.primary}
+                            style={{
+                              marginLeft: 10,
+                              backgroundColor: colors.white,
+                            }}
+                          />
+                        }
+                        style={{
+                          marginLeft: 10,
+                          backgroundColor: colors.white,
+                          width: 50,
+                        }}
                       />
                     </View>
                   </AppForm>
@@ -186,6 +242,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     flexDirection: "row",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
 });

@@ -15,7 +15,6 @@ import i18n from "i18n-js";
 import routes from "../navigation/routes";
 import { translate, setLanguage } from "../components/common/translator";
 import colors from "../config/colors";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import CampaignListItem from "../components/Profile/CampaignListItem";
 import PostsListItem from "../components/Profile/PostsListItem";
 import PointListItem from "../components/Profile/PointListItem";
@@ -25,7 +24,9 @@ import {
   getAllCampaign,
   getAllCampaignsByUserId,
 } from "../api/campaignService";
-import { logout } from "../api/authService";
+import { getCurrentUser, logout } from "../api/authService";
+import { getUser } from "../api/userService";
+import { getAllPostsByUserId } from "../api/postService";
 const campaigns1 = [
   {
     id: "1",
@@ -738,26 +739,53 @@ const points = [
 
 export default function ProfileScreen({ navigation }) {
   const [campaigns, setCampaigns] = useState([]);
-  const [posts, setPosts] = useState(posts1);
+  const [posts, setPosts] = useState([]);
   const [locale, setLocale] = useState("");
+  const [user, setUser] = useState({});
+  const [refreshing, setRefreshing] = React.useState(false);
+
   i18n.fallbacks = true;
   i18n.translations = { en, sn };
   i18n.locale = locale;
 
   useEffect(() => {
-    handleLocale()
+    getUserBy();
+    handleLocale();
     getAllCampaigns();
+    getAllPosts();
   }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getAllCampaigns();
+    getAllPosts();
+  }, []);
+
   const handleLocale = async () => {
-  const loc = await SecureStore.getItemAsync("locale");
-  setLocale(loc);
-}
+    const loc = await SecureStore.getItemAsync("locale");
+    setLocale(loc);
+  };
+
+  const getUserBy = async () => {
+    await getUser().then(({ data }) => {
+      setUser(data);
+    });
+  };
+
   const getAllCampaigns = async () => {
-    
     await getAllCampaignsByUserId()
       .then(({ data }) => {
         setCampaigns(data);
-        console.log(data)
+      })
+      .catch((error) => console.log(error.response.data));
+  };
+  const getAllPosts = async () => {
+    await getAllPostsByUserId()
+      .then(({ data }) => {
+        console.log(data);
+        setPosts(data);
+    setRefreshing(false);
+
       })
       .catch((error) => console.log(error));
   };
@@ -770,18 +798,22 @@ export default function ProfileScreen({ navigation }) {
   };
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={styles.container}>
           <View style={styles.profile}>
             <View style={styles.avatar}>
               <Image
-                source={require("../assets/avatar.png")}
+                source={{uri:user.image}}
                 style={styles.image}
               />
             </View>
             <View style={styles.details}>
-              <Text style={styles.name}>CHAMATH KAVINDYA</Text>
-              <Text style={styles.email}>chamathkavvindya@gmail.com</Text>
+              <Text style={styles.name}>{user.name}</Text>
+              <Text style={styles.email}>{user.email}</Text>
               <Text style={styles.point}>150 Points</Text>
             </View>
           </View>
@@ -794,7 +826,9 @@ export default function ProfileScreen({ navigation }) {
                 <Text
                   style={[styles.email, { marginBottom: 0 }]}
                   onPress={() => {
-                    navigation.navigate(routes.CAMPAIGNS_YOU_HOST,{campaigns});
+                    navigation.navigate(routes.CAMPAIGNS_YOU_HOST, {
+                      campaigns,
+                    });
                   }}
                 >
                   {translate("SeeMore")}

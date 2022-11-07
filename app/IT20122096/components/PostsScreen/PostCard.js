@@ -17,13 +17,13 @@ export default function PostCard({ item, onPress }) {
         <View style={styles.image}>
           <Image
             style={{ width: 190, height: 150, borderRadius: 10 }}
-            source={item.image}
+            source={{ uri: item.image }}
           />
         </View>
         <View style={styles.details}>
           <View style={styles.date}>
             <Text style={styles.titleText}>{translate("Date")}</Text>
-            <Text style={styles.contentText}>2022-11-04</Text>
+            <Text style={styles.contentText}>{item.campaign.date}</Text>
           </View>
           <View style={styles.like}>
             <MaterialCommunityIcons
@@ -31,11 +31,15 @@ export default function PostCard({ item, onPress }) {
               size={33}
               color={colors.primary}
             />
-            <Text style={[styles.contentText,{fontSize: 13}]}>1000</Text>
+            <Text style={[styles.contentText, { fontSize: 14 }]}>
+              {item.likeCount}
+            </Text>
           </View>
           <View style={styles.comment}>
             <AntDesign name="message1" size={30} color={colors.primary} />
-            <Text style={[styles.contentText,{fontSize: 13}]}>1000</Text>
+            <Text style={[styles.contentText, { fontSize: 14 }]}>
+              {item.commentsCount}
+            </Text>
           </View>
         </View>
       </View>
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
   contentText: {
     paddingBottom: 5,
     paddingLeft: 10,
-    fontSize: 14,
+    fontSize: 15,
     color: colors.primary,
   },
 });

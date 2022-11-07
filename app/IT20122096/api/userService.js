@@ -8,3 +8,11 @@ export async function saveUser(data) {
     headers: { Authorization: "" },
   });
 }
+export async function getUser() {
+  const token = await SecureStore.getItemAsync("secure_token");
+  const header = "Bearer " + token;
+  const id = await SecureStore.getItemAsync("userId");
+  return await http.get(endpoint + `/${id}`, {
+    headers: { Authorization: header },
+  });
+}
