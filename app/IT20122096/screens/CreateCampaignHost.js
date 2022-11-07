@@ -10,6 +10,8 @@ import colors from "../config/colors";
 import SubmitButton from "../components/common/SubmitBUtton";
 import { Snackbar } from "react-native-paper";
 import routes from "../navigation/routes";
+import { saveCampaign } from "../api/campaignService";
+import * as SecureStore from "expo-secure-store";
 
 export default function CreateCampaignHost({ navigation }) {
   const [snakVisible, SetSnackVisible] = useState(false);
@@ -24,10 +26,29 @@ export default function CreateCampaignHost({ navigation }) {
     description: Yup.string(),
   });
   const handleSubmit = async (values) => {
-    SetSnackVisible(true);
-    setTimeout(() => {
-      navigation.navigate(routes.ALL_CAMPAIGNS);
-    }, 2500);
+    const userId = await SecureStore.getItemAsync("userId");
+    const data = {
+      host: userId,
+      place: values.place,
+      date: values.date,
+      startTime: values.startTime,
+      endTime: values.endTime,
+      description: values.description,
+      image: values.images[0],
+    };
+
+    await saveCampaign(data)
+      .then(() => {
+        SetSnackVisible(true);
+        setTimeout(() => {
+          navigation.navigate(routes.ALL_CAMPAIGNS);
+        }, 2500);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
   };
   return (
     <Screen>
@@ -52,7 +73,7 @@ export default function CreateCampaignHost({ navigation }) {
             onSubmit={(values) => handleSubmit(values)}
             validationSchema={validationSchema}
           >
-            <View style={{marginLeft:15}}>
+            <View style={{ marginLeft: 15 }}>
               <AppFormImagePicker name={"images"} />
             </View>
             <View style={styles.fields}>

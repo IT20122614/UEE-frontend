@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   RefreshControl,
@@ -20,8 +20,13 @@ import CampaignListItem from "../components/Profile/CampaignListItem";
 import PostsListItem from "../components/Profile/PostsListItem";
 import PointListItem from "../components/Profile/PointListItem";
 translate;
-
-const campaigns = [
+import * as SecureStore from "expo-secure-store";
+import {
+  getAllCampaign,
+  getAllCampaignsByUserId,
+} from "../api/campaignService";
+import { logout } from "../api/authService";
+const campaigns1 = [
   {
     id: "1",
     host: "fsafsag",
@@ -38,43 +43,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -93,43 +98,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -148,43 +153,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -203,43 +208,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -258,43 +263,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -313,43 +318,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -368,43 +373,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -423,43 +428,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -478,43 +483,43 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
@@ -533,48 +538,48 @@ const campaigns = [
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "2",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "3",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
       {
         id: "1",
         userId: "123",
         name: "chamath Kavindya",
-        image:require("../assets/avatar.png"),
-        attendence:true
+        image: require("../assets/avatar.png"),
+        attendence: true,
       },
     ],
   },
 ];
-const posts = [
+const posts1 = [
   {
     id: "1",
     campaignId: "123456",
@@ -732,10 +737,37 @@ const points = [
 ];
 
 export default function ProfileScreen({ navigation }) {
-  // let [locale, setLocale] = useState(Localization.locale);
-  // i18n.fallbacks = true;
-  // i18n.translations = { en, sn };
-  // i18n.locale = locale;
+  const [campaigns, setCampaigns] = useState([]);
+  const [posts, setPosts] = useState(posts1);
+  const [locale, setLocale] = useState("");
+  i18n.fallbacks = true;
+  i18n.translations = { en, sn };
+  i18n.locale = locale;
+
+  useEffect(() => {
+    handleLocale()
+    getAllCampaigns();
+  }, []);
+  const handleLocale = async () => {
+  const loc = await SecureStore.getItemAsync("locale");
+  setLocale(loc);
+}
+  const getAllCampaigns = async () => {
+    
+    await getAllCampaignsByUserId()
+      .then(({ data }) => {
+        setCampaigns(data);
+        console.log(data)
+      })
+      .catch((error) => console.log(error));
+  };
+  const logOut = async () => {
+    await logout()
+      .then(() => {
+        navigation.navigate(routes.LOGIN);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <Screen>
       <ScrollView>
@@ -758,28 +790,35 @@ export default function ProfileScreen({ navigation }) {
               <Text style={[styles.name, { marginBottom: 0 }]}>
                 {translate("CampaignsYouHost")}
               </Text>
-              <Text
-                style={[styles.email, { marginBottom: 0 }]}
-                onPress={() => {
-                  navigation.navigate(routes.CAMPAIGNS_YOU_HOST);
-                }}
-              >
-                {translate("SeeMore")}
-              </Text>
+              {campaigns.length !== 0 && (
+                <Text
+                  style={[styles.email, { marginBottom: 0 }]}
+                  onPress={() => {
+                    navigation.navigate(routes.CAMPAIGNS_YOU_HOST,{campaigns});
+                  }}
+                >
+                  {translate("SeeMore")}
+                </Text>
+              )}
             </View>
             <View>
-              {campaigns.map((item, index) =>
-                index === 0 || index === 1 ? (
-                  <CampaignListItem
-                    key={index}
-                    campaign={item}
-                    onPress={() => {
-                      navigation.navigate(routes.SELECTED_MY_CAMPAIGN, {
-                        item,
-                      });
-                    }}
-                  />
-                ) : null
+              {(campaigns.length !== 0 &&
+                campaigns.map((item, index) =>
+                  index === 0 || index === 1 ? (
+                    <CampaignListItem
+                      key={index}
+                      campaign={item}
+                      onPress={() => {
+                        navigation.navigate(routes.SELECTED_MY_CAMPAIGN, {
+                          item,
+                        });
+                      }}
+                    />
+                  ) : null
+                )) || (
+                <View>
+                  <Text style={styles.errorMsg}>No campaigns to show.</Text>
+                </View>
               )}
             </View>
           </View>
@@ -788,28 +827,35 @@ export default function ProfileScreen({ navigation }) {
               <Text style={[styles.name, { marginBottom: 0 }]}>
                 {translate("MyPosts")}
               </Text>
-              <Text
-                style={[styles.email, { marginBottom: 0 }]}
-                onPress={() => {
-                  navigation.navigate(routes.MY_POST);
-                }}
-              >
-                {translate("SeeMore")}
-              </Text>
+              {posts.length !== 0 && (
+                <Text
+                  style={[styles.email, { marginBottom: 0 }]}
+                  onPress={() => {
+                    navigation.navigate(routes.MY_POST);
+                  }}
+                >
+                  {translate("SeeMore")}
+                </Text>
+              )}
             </View>
             <View>
-              {posts.map((item, index) =>
-                index === 0 || index === 1 ? (
-                  <PostsListItem
-                    key={index}
-                    post={item}
-                    onPress={() => {
-                      navigation.navigate(routes.SELECTED_MY_POSTS, {
-                        item,
-                      });
-                    }}
-                  />
-                ) : null
+              {(posts.length !== 0 &&
+                posts.map((item, index) =>
+                  index === 0 || index === 1 ? (
+                    <PostsListItem
+                      key={index}
+                      post={item}
+                      onPress={() => {
+                        navigation.navigate(routes.SELECTED_MY_POSTS, {
+                          item,
+                        });
+                      }}
+                    />
+                  ) : null
+                )) || (
+                <View>
+                  <Text style={styles.errorMsg}>No posts to show.</Text>
+                </View>
               )}
             </View>
           </View>
@@ -819,25 +865,28 @@ export default function ProfileScreen({ navigation }) {
               <Text
                 style={styles.email}
                 onPress={() => {
-                  navigation.navigate(routes.POINTS_HISTORY,{points});
+                  navigation.navigate(routes.POINTS_HISTORY, { points });
                 }}
               >
                 {translate("SeeMore")}
               </Text>
             </View>
             <View>
-              {points.map((point, index) => 
-               index === 0 || index === 1 ? ( <PointListItem key={index} item={point} />):null
+              {points.map((point, index) =>
+                index === 0 || index === 1 ? (
+                  <PointListItem key={index} item={point} />
+                ) : null
               )}
             </View>
           </View>
-          {/* <View>
+          <View>
             <Text>{translate("languageSelector")}</Text>
             <AppButton
               title={"English"}
               onPress={() => {
                 setLocale("en");
                 setLanguage("en");
+                handleLocale();
                 //navigation.navigate(routes.ALL_CAMPAIGNS);
               }}
             />
@@ -846,10 +895,17 @@ export default function ProfileScreen({ navigation }) {
               onPress={() => {
                 setLocale("sn");
                 setLanguage("sn");
+                handleLocale();
                 //navigation.navigate(routes.ALL_CAMPAIGNS);
               }}
             />
-          </View> */}
+            <AppButton
+              title={"Logout"}
+              onPress={() => {
+                logOut();
+              }}
+            />
+          </View>
         </View>
       </ScrollView>
     </Screen>
@@ -917,5 +973,11 @@ const styles = StyleSheet.create({
   pointText: {
     color: colors.primary,
     fontSize: 20,
+  },
+  errorMsg: {
+    fontSize: 20,
+    alignSelf: "center",
+    padding: 30,
+    color: colors.primary,
   },
 });

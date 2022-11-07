@@ -10,7 +10,7 @@ export default function CampaignCard({item,onPress}) {
         <View style={styles.image}>
           <Image
             style={{ width: 190, height: 155, borderRadius: 10 }}
-            source={item.image}
+            source={{ uri: item.image }}
           />
         </View>
         <View style={styles.details}>

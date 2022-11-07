@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/common/Screen";
 import AppForm from "./../components/common/AppForm";
 import * as Yup from "yup";
@@ -7,78 +7,149 @@ import AppFormField from "../components/common/AppFormField";
 import colors from "../config/colors";
 import SubmitButton from "../components/common/SubmitBUtton";
 import routes from "../navigation/routes";
+import { saveUser } from "../api/userService";
+import { Snackbar } from "react-native-paper";
 
-export default function RegistrationScreen({route,navigation}) {
+export default function RegistrationScreen({ route, navigation }) {
   const validationSchema = Yup.object().shape({
-    email: Yup.string(),
-    password:Yup.string()
-  })
-  const handleSubmit = (value) => {
-navigation.navigate(routes.LOGIN);
+    name: Yup.string().min(5).label("Name"),
+    email: Yup.string().email().label("Email"),
+    password: Yup.string().min(5).label("Password"),
+    confirmPassword: Yup.string().min(5).label("Confirm Password"),
+  });
+  const [error, setError] = useState({});
+  const [snakVisible, SetSnackVisible] = useState(false);
+  const [errorSnakVisible, SetErrorSnackVisible] = useState(false);
+  const handleSubmit = async (value) => {
+    const data = {
+      name: value.name,
+      email: value.email,
+      password: value.password,
+    };
+    if (value.password !== value.confirmPassword) {
+      setError({ password: "Password dosen't match." });
+      SetErrorSnackVisible(true);
+      return;
+    }
+
+    await saveUser(data)
+      .then(() => {
+        SetSnackVisible(true);
+        setTimeout(() => {
+          navigation.navigate(routes.LOGIN);
+        }, 2500);
+      })
+      .catch((error) => {
+        SetErrorSnackVisible(true)
+        setError({ email: error.response.data });
+      });
   };
   return (
     <Screen>
-      <View>
-        <Image style={styles.logo} source={require("../assets/logo.png")} />
-      </View>
-      <View style={styles.form}>
-        <AppForm
-          initialValues={{
-            email: "",
-            password: "",
+      <ScrollView>
+        <View>
+          <Image style={styles.logo} source={require("../assets/logo.png")} />
+        </View>
+        <View style={styles.form}>
+          <AppForm
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            }}
+            onSubmit={(values) => {
+              handleSubmit(values);
+            }}
+            validationSchema={validationSchema}
+          >
+            <View style={styles.fields}>
+              <Text style={styles.text}>FUll NAME</Text>
+              <AppFormField
+                maxLength={255}
+                name="name"
+                placeholder="Enter Full Name"
+              />
+              <Text style={styles.text}>EMAIL</Text>
+              <AppFormField
+                maxLength={255}
+                name="email"
+                placeholder="Enter Email"
+              />
+              <Text style={styles.text}>PASSWORD</Text>
+              <AppFormField
+                keyboardType="password"
+                maxLength={255}
+                name="password"
+                placeholder="Enter Password"
+                secureTextEntry
+              />
+              <Text style={styles.text}>CONFIRM PASSWORD</Text>
+              <AppFormField
+                keyboardType="password"
+                maxLength={255}
+                name="confirmPassword"
+                placeholder="Enter Confirm Password"
+                secureTextEntry
+              />
+            </View>
+            <View style={styles.login}>
+              <SubmitButton
+                title={"SIGN UP"}
+                style={styles.submitbutton}
+                fontSize={18}
+              />
+              <Text
+                style={styles.text}
+                onPress={() => {
+                  navigation.navigate(routes.LOGIN);
+                }}
+              >
+                LOGIN
+              </Text>
+            </View>
+          </AppForm>
+        </View>
+        <Snackbar
+          visible={snakVisible}
+          onDismiss={() => SetSnackVisible(false)}
+          duration={2000}
+          action={{
+            label: "OK",
+            labelStyle: { color: colors.limeGreen, fontSize: 18 },
+            onPress: () => {
+              SetSnackVisible(false);
+            },
           }}
-          onSubmit={(values) => {
-            handleSubmit(values);
-          }}
-          validationSchema={validationSchema}
+          style={{ backgroundColor: colors.black }}
         >
-          <View style={styles.fields}>
-            <Text style={styles.text}>FUll NAME</Text>
-            <AppFormField
-              maxLength={255}
-              name="email"
-              placeholder="Enter Full Name"
-            />
-            <Text style={styles.text}>EMAIL</Text>
-            <AppFormField
-              maxLength={255}
-              name="email"
-              placeholder="Enter Email"
-            />
-            <Text style={styles.text}>PASSWORD</Text>
-            <AppFormField
-              keyboardType="password"
-              maxLength={255}
-              name="password"
-              placeholder="Enter Password"
-              secureTextEntry
-            />
-            <Text style={styles.text}>CONFIRM PASSWORD</Text>
-            <AppFormField
-              keyboardType="password"
-              maxLength={255}
-              name="password"
-              placeholder="Enter Confirm Password"
-              secureTextEntry
-            />
+          <View>
+            <Text style={styles.snackbar}>Registered Successfully.</Text>
           </View>
-          <View style={styles.login}>
-            <SubmitButton
-              title={"SIGN UP"}
-              style={styles.submitbutton}
-              fontSize={18}
-            />
-            <Text
-              style={styles.text}
-              onPress={() => {
-                navigation.navigate(routes.LOGIN);
-              }}
-            >
-              LOGIN
-            </Text>
+        </Snackbar>
+        <Snackbar
+          visible={errorSnakVisible}
+          onDismiss={() => SetErrorSnackVisible(false)}
+          duration={2000}
+          action={{
+            label: "OK",
+            labelStyle: { color: colors.red, fontSize: 18 },
+            onPress: () => {
+              SetErrorSnackVisible(false);
+            },
+          }}
+          style={{ backgroundColor: colors.black }}
+        >
+          <View>
+            {(error.email && (
+              <Text style={styles.errsnackbar}>{error.email}</Text>
+            )) ||
+              (error.password && (
+                <Text style={styles.errsnackbar}>{error.password}</Text>
+              ))}
           </View>
-        </AppForm>
-      </View>
+        </Snackbar>
+      </ScrollView>
     </Screen>
   );
 }
@@ -106,14 +177,23 @@ const styles = StyleSheet.create({
     width: 130,
     height: 40,
     borderRadius: 10,
-    marginTop: 40,
+    marginTop: -10,
     color: colors.white,
     marginRight: 50,
+    marginBottom: 10,
   },
   login: {
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
     paddingLeft: 90,
+  },
+  snackbar: {
+    color: colors.limeGreen,
+    fontSize: 18,
+  },
+  errsnackbar: {
+    color: colors.red,
+    fontSize: 18,
   },
 });

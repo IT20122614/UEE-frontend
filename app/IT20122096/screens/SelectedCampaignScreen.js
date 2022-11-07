@@ -13,7 +13,7 @@ export default function SelectedCampaignScreen({ navigation, route }) {
       <ScrollView verticle>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={campaign.image} style={styles.image} />
+            <Image source={{ uri: campaign.image }} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
             <View style={styles.details}>
@@ -42,7 +42,7 @@ export default function SelectedCampaignScreen({ navigation, route }) {
                 style={styles.button}
                 fontSize={18}
                 onPress={() => {
-                  navigation.navigate(routes.CONTRIBUTION_FORM)
+                  navigation.navigate(routes.CONTRIBUTION_FORM);
                 }}
               />
             </View>

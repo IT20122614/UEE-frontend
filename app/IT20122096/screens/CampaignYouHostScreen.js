@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CampaignCard from "../components/AllShramadanaListScreen/CampaignCard";
 import Screen from "../components/common/Screen";
@@ -7,7 +7,7 @@ import { FlatGrid } from "react-native-super-grid";
 import { translate } from "../components/common/translator";
 import routes from "../navigation/routes";
 
-const campaigns = [
+const campaigns1 = [
   {
     id: "1",
     host: "fsafsag",
@@ -121,7 +121,8 @@ const campaigns = [
   },
 ];
 
-export default function CampaignYouHostScreen({ navigation }) {
+export default function CampaignYouHostScreen({ route, navigation }) { 
+  const [campaigns, setCampaigns] = useState(route.params.campaigns);
   return (
     <Screen>
       <View style={styles.body}>

@@ -7,7 +7,7 @@ export default function CampaignListItem({ campaign, onPress }) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={campaign.image} />
+        <Image style={styles.image} source={{ uri: campaign.image }} />
       </View>
       <View style={styles.details}>
         <View style={styles.items}>

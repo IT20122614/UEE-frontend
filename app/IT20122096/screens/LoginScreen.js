@@ -1,20 +1,35 @@
-import React from 'react'
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/common/Screen";
 import AppForm from "./../components/common/AppForm";
 import * as Yup from "yup";
-import AppFormField from './../components/common/AppFormField';
-import colors from '../config/colors';
-import SubmitButton from '../components/common/SubmitBUtton';
-import routes from '../navigation/routes';
+import AppFormField from "./../components/common/AppFormField";
+import colors from "../config/colors";
+import SubmitButton from "../components/common/SubmitBUtton";
+import routes from "../navigation/routes";
+import {getCurrentUser, loginUser } from "../api/authService";
+import { Snackbar } from "react-native-paper";
 
-export default function LoginScreen({route,navigation}) {
-   const validationSchema = Yup.object().shape({
+export default function LoginScreen({ route, navigation }) {
+  const [snakVisible, SetSnackVisible] = useState(false);
+
+  const validationSchema = Yup.object().shape({
     email: Yup.string(),
-    password:Yup.string()
-  })
-  const handleSubmit = (value) => {
-navigation.navigate(routes.SECTIONS);
+    password: Yup.string(),
+  });
+  const handleSubmit = async (values) => {
+    await loginUser(values)
+      .then(async() => {
+        SetSnackVisible(true);
+        await getCurrentUser();
+        setTimeout(() => {
+          navigation.navigate(routes.SECTIONS);
+        }, 2500);
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Screen>
@@ -54,12 +69,34 @@ navigation.navigate(routes.SECTIONS);
               style={styles.submitbutton}
               fontSize={18}
             />
-            <Text style={styles.text} onPress={() => {
-              navigation.navigate(routes.REGISTRATION)
-            }} >SIGN UP</Text>
+            <Text
+              style={styles.text}
+              onPress={() => {
+                navigation.navigate(routes.REGISTRATION);
+              }}
+            >
+              SIGN UP
+            </Text>
           </View>
         </AppForm>
       </View>
+      <Snackbar
+        visible={snakVisible}
+        onDismiss={() => SetSnackVisible(false)}
+        duration={2000}
+        action={{
+          label: "OK",
+          labelStyle: { color: colors.limeGreen, fontSize: 18 },
+          onPress: () => {
+            SetSnackVisible(false);
+          },
+        }}
+        style={{ backgroundColor: colors.black }}
+      >
+        <View>
+          <Text style={styles.snackbar}>Loged In Successfully</Text>
+        </View>
+      </Snackbar>
     </Screen>
   );
 }
@@ -81,7 +118,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.primary,
-    fontSize:15
+    fontSize: 15,
   },
   submitbutton: {
     width: 130,
@@ -95,6 +132,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    paddingLeft:90
+    paddingLeft: 90,
+  },
+  snackbar: {
+    color: colors.limeGreen,
+    fontSize: 18,
   },
 });

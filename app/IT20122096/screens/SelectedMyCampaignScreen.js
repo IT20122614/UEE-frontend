@@ -53,7 +53,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
               ]}
               fontSize={18}
               onPress={() => {
-                navigation.navigate(routes.CREATE_POST)
+                navigation.navigate(routes.CREATE_POST);
               }}
               disabled={selected === "FINISH" ? false : true}
               icon={
@@ -66,7 +66,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
             />
           </View>
           <View style={styles.imageContainer}>
-            <Image source={campaign.image} style={styles.image} />
+            <Image source={{ uri: campaign.image }} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
             <View style={styles.details}>
