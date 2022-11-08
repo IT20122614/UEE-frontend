@@ -12,9 +12,14 @@ import { Snackbar } from "react-native-paper";
 import routes from "../navigation/routes";
 import { saveCampaign } from "../api/campaignService";
 import * as SecureStore from "expo-secure-store";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AppDatePicker from "../components/common/AppDatePicker";
 
 export default function CreateCampaignHost({ navigation }) {
   const [snakVisible, SetSnackVisible] = useState(false);
+  const [date, setDate] = useState("");
+  const [showDate, setShowDate] = useState(false);
+
   const validationSchema = Yup.object().shape({
     images: Yup.array()
       .min(1, "Please select at least one image")
@@ -25,12 +30,18 @@ export default function CreateCampaignHost({ navigation }) {
     endTime: Yup.string(),
     description: Yup.string(),
   });
+
+  const getDate = (date) => {
+    setDate(date);
+    setShowDate(false);
+  };
+
   const handleSubmit = async (values) => {
     const userId = await SecureStore.getItemAsync("userId");
     const data = {
       host: userId,
       place: values.place,
-      date: values.date,
+      date:date,
       startTime: values.startTime,
       endTime: values.endTime,
       description: values.description,
@@ -47,18 +58,9 @@ export default function CreateCampaignHost({ navigation }) {
       .catch((error) => {
         console.log(error);
       });
-
-
   };
   return (
     <Screen>
-      <View style={styles.header}>
-        <Text
-          style={{ color: colors.primary, fontSize: 17, fontWeight: "bold" }}
-        >
-          {translate("HostNewForm")}
-        </Text>
-      </View>
       <ScrollView>
         <View style={styles.form}>
           <AppForm
@@ -80,7 +82,19 @@ export default function CreateCampaignHost({ navigation }) {
               <Text style={styles.text}>{translate("Place")}</Text>
               <AppFormField maxLength={255} name="place" />
               <Text style={styles.text}>{translate("Date")}</Text>
-              <AppFormField maxLength={255} name="date" />
+              <View style={styles.date}>
+                <Text style={styles.dateText}>{date}</Text>
+                <MaterialCommunityIcons
+                  name="calendar-month"
+                  size={30}
+                  color={colors.primary}
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={() => {
+                    setShowDate(true);
+                  }}
+                />
+                {showDate && <AppDatePicker mode={"date"} getDate={getDate} />}
+              </View>
               <Text style={styles.text}>{translate("StartTime")}</Text>
               <AppFormField maxLength={255} name="startTime" />
               <Text style={styles.text}>{translate("EndTime")}</Text>
@@ -125,15 +139,6 @@ export default function CreateCampaignHost({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.limeGreen,
-    height: 60,
-    width: "100%",
-    marginTop: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   form: {
     margin: 10,
     marginBottom: 20,
@@ -147,6 +152,24 @@ const styles = StyleSheet.create({
   text: {
     color: colors.primary,
     fontSize: 15,
+  },
+  date: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 10,
+    height: 40,
+    marginBottom: 10,
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderRadius: 5,
+  },
+  dateText: {
+    width: "85%",
+    height: 25,
+    marginLeft: 15,
+
+    fontSize: 18,
   },
   submit: {
     flexDirection: "row",

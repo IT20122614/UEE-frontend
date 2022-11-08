@@ -186,6 +186,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   body: {
-    height: "86%",
+    height: "100%",
   },
 });

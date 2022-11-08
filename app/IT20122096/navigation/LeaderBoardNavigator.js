@@ -2,20 +2,21 @@ import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
 import colors from "../config/colors";
 import { translate } from "../components/common/translator";
-import CreateCampaignHost from '../screens/CreateCampaignHost';
+import LeaderBoardScreen from '../screens/LeaderBoardScreen';
 const Stack = createStackNavigator();
-export default function HostNewCampaignNavigator() {
+
+export default function LeaderBoardNavigator() {
   return (
     <Stack.Navigator presentation="modal">
       <Stack.Screen
-        name="Host"
-        component={CreateCampaignHost}
+        name="Points"
+        component={LeaderBoardScreen}
         options={{
-          headerTitle: translate("HostNewForm"),
+          headerTitle: translate("LeaderBoard"),
           headerTitleAlign: "center",
           headerTitleStyle: {
             color: colors.primary,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: "bold",
           },
           headerStyle: { backgroundColor: colors.limeGreen },

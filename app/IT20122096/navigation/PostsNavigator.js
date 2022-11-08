@@ -12,7 +12,16 @@ export default function PostsNavigator() {
       <Stack.Screen
         name="Posts"
         component={PostsScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerTitle: translate("Posts"),
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: colors.primary,
+            fontSize: 18,
+            fontWeight: "bold",
+          },
+          headerStyle: { backgroundColor: colors.limeGreen },
+        }}
       />
       <Stack.Screen
         name="Post"
@@ -29,7 +38,11 @@ export default function PostsNavigator() {
         options={{
           headerTitle: translate("Comments"),
           headerTitleAlign: "center",
-          headerTitleStyle:{color:colors.primary,fontSize:20,fontWeight:"bold"},
+          headerTitleStyle: {
+            color: colors.primary,
+            fontSize: 20,
+            fontWeight: "bold",
+          },
           headerStyle: { backgroundColor: colors.limeGreen },
         }}
       />

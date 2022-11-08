@@ -12,6 +12,7 @@ import ProfileNavigator from './ProfileNavigator';
 import AllShramadanaNavigator from './AllShramadanaNavigator';
 import PostsNavigator from './PostsNavigator';
 import HostNewCampaignNavigator from './HostNewCampaignNavigator';
+import LeaderBoardNavigator from './LeaderBoardNavigator';
 
 const Tab = createBottomTabNavigator();
 export default function CampaignsNavigator() {
@@ -68,7 +69,7 @@ export default function CampaignsNavigator() {
       />
       <Tab.Screen
         name="Points"
-        component={LeaderBoardScreen}
+        component={LeaderBoardNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

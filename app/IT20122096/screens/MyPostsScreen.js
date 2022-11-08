@@ -189,28 +189,20 @@ export default function MyPostsScreen({ navigation }) {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          style={{height:100}}
         />
       </View>
     </Screen>
   );
 }
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.limeGreen,
-    height: 60,
-    width: "100%",
-    marginTop: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   text: {
     color: colors.primary,
     fontSize: 20,
     fontWeight: "bold",
   },
   body: {
-    height: "86%",
+    height: "100%",
   },
   button: {
     width: 170,

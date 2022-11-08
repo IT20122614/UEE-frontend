@@ -52,9 +52,9 @@ export default function LeaderBoardScreen() {
   return (
     <Screen>
       <ScrollView>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.text}>{translate("LeaderBoard")}</Text>
-        </View>
+        </View> */}
         <View>
           {filterLeaderBoard().map((point,index) => (
             <PointListItem key={index} index={index} point={point} />

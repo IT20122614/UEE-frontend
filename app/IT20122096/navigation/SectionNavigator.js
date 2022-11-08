@@ -18,16 +18,6 @@ export default function SectionNavigator() {
         name="CampaignsNavigator"
         component={CampaignsNavigator}
         options={{ headerShown: false }}
-        // options={{
-        //   headerTitle: translate("All_Shramadana_Campaigns"),
-        //   headerTitleAlign: "center",
-        //   headerTitleStyle: {
-        //     color: colors.primary,
-        //     fontSize: 20,
-        //     fontWeight: "bold",
-        //   },
-        //   headerStyle: { backgroundColor: colors.limeGreen },
-        // }}
       />
     </Stack.Navigator>
   );

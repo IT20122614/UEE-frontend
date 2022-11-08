@@ -183,9 +183,6 @@ export default function PostsScreen({ navigation }) {
   // );
   return (
     <Screen>
-      <View style={styles.header}>
-        <Text style={styles.text}>{translate("Posts")}</Text>
-      </View>
       <View style={styles.body}>
         <AppButton
           title={translate("MyContributions")}
@@ -222,15 +219,6 @@ export default function PostsScreen({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.limeGreen,
-    height: 60,
-    width: "100%",
-    marginTop: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   text: {
     color: colors.primary,
     fontSize: 20,
