@@ -23,7 +23,7 @@ export default function LoginScreen({ route, navigation }) {
         SetSnackVisible(true);
         await getCurrentUser();
         setTimeout(() => {
-          navigation.navigate(routes.SECTIONS);
+          navigation.navigate(routes.SECTIONSNAV);
         }, 2500);
         
       })

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import CampaignCard from "../components/AllShramadanaListScreen/CampaignCard";
 import Screen from "../components/common/Screen";
@@ -6,6 +6,7 @@ import colors from "../config/colors";
 import { FlatGrid } from "react-native-super-grid";
 import { translate } from "../components/common/translator";
 import routes from "../navigation/routes";
+import { getAllCampaignsByUserId } from "../api/campaignService";
 
 const campaigns1 = [
   {
@@ -122,9 +123,27 @@ const campaigns1 = [
 ];
 
 export default function CampaignYouHostScreen({ route, navigation }) { 
-  const [campaigns, setCampaigns] = useState(route.params.campaigns);
+  const [campaigns, setCampaigns] = useState();
   const [refreshing, setRefreshing] = React.useState(false);
+
+  useEffect(() => {
+    getAllCampaigns();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getAllCampaigns();
+  }, []);
   
+  const getAllCampaigns = async () => {
+    await getAllCampaignsByUserId()
+      .then(({ data }) => {
+        setCampaigns(data);
+        setRefreshing(false);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
+
   return (
     <Screen>
       <View style={styles.body}>
@@ -140,7 +159,9 @@ export default function CampaignYouHostScreen({ route, navigation }) {
               }}
             />
           )}
-          refreshing={true}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </Screen>

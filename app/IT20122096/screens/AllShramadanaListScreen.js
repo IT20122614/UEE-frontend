@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, StyleSheet, Text, View } from "react-native";
 import CampaignCard from "../components/AllShramadanaListScreen/CampaignCard";
 import Screen from "../components/common/Screen";
 import colors from "../config/colors";
@@ -127,23 +127,28 @@ const campaigns1 = [
 
 export default function AllShramadanaListScreen({ navigation }) {
   const [campaigns, setCampaigns] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+
   useEffect(() => {
     getAllCampaigns();
   });
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getAllCampaigns();
+  }, []);
+
   const getAllCampaigns = async () => {
     await getAllCampaign()
       .then(({ data }) => {
-        setCampaigns(data);
+        setCampaigns(data.filter((c) => c.status !== "FINISH"));
+        setRefreshing(false);
       })
       .catch((error) => console.log(error));
   };
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <Text style={styles.text}>{translate("All_Shramadana_Campaigns")}</Text>
-      </View>
       <View style={styles.body}>
         <FlatGrid
           itemDimension={130}
@@ -157,7 +162,9 @@ export default function AllShramadanaListScreen({ navigation }) {
               }}
             />
           )}
-          refreshing={true}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </Screen>

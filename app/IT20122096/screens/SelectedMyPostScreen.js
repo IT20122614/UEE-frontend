@@ -84,7 +84,7 @@ export default function SelectedMyPostScreen({ navigation, route }) {
                 />
               }
               onPress={() => {
-                deletePosts(post.id)
+                deletePosts(post.id);
               }}
             />
             <View style={styles.description}>
@@ -156,24 +156,24 @@ export default function SelectedMyPostScreen({ navigation, route }) {
             </View>
           </View>
         </View>
-        <Snackbar
-          visible={snakVisible}
-          onDismiss={() => SetSnackVisible(false)}
-          duration={2000}
-          action={{
-            label: translate("OK"),
-            labelStyle: { color: colors.limeGreen, fontSize: 18 },
-            onPress: () => {
-              SetSnackVisible(false);
-            },
-          }}
-          style={{ backgroundColor: colors.black }}
-        >
-          <View>
-            <Text style={styles.snackbar}>Post deleted</Text>
-          </View>
-        </Snackbar>
       </ScrollView>
+      <Snackbar
+        visible={snakVisible}
+        onDismiss={() => SetSnackVisible(false)}
+        duration={2000}
+        action={{
+          label: translate("OK"),
+          labelStyle: { color: colors.limeGreen, fontSize: 18 },
+          onPress: () => {
+            SetSnackVisible(false);
+          },
+        }}
+        style={{ backgroundColor: colors.black }}
+      >
+        <View>
+          <Text style={styles.snackbar}>Post deleted</Text>
+        </View>
+      </Snackbar>
     </Screen>
   );
 }

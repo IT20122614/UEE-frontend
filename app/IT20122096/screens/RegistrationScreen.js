@@ -127,29 +127,29 @@ export default function RegistrationScreen({ route, navigation }) {
             <Text style={styles.snackbar}>Registered Successfully.</Text>
           </View>
         </Snackbar>
-        <Snackbar
-          visible={errorSnakVisible}
-          onDismiss={() => SetErrorSnackVisible(false)}
-          duration={2000}
-          action={{
-            label: "OK",
-            labelStyle: { color: colors.red, fontSize: 18 },
-            onPress: () => {
-              SetErrorSnackVisible(false);
-            },
-          }}
-          style={{ backgroundColor: colors.black }}
-        >
-          <View>
-            {(error.email && (
-              <Text style={styles.errsnackbar}>{error.email}</Text>
-            )) ||
-              (error.password && (
-                <Text style={styles.errsnackbar}>{error.password}</Text>
-              ))}
-          </View>
-        </Snackbar>
       </ScrollView>
+      <Snackbar
+        visible={errorSnakVisible}
+        onDismiss={() => SetErrorSnackVisible(false)}
+        duration={2000}
+        action={{
+          label: "OK",
+          labelStyle: { color: colors.red, fontSize: 18 },
+          onPress: () => {
+            SetErrorSnackVisible(false);
+          },
+        }}
+        style={{ backgroundColor: colors.black }}
+      >
+        <View>
+          {(error.email && (
+            <Text style={styles.errsnackbar}>{error.email}</Text>
+          )) ||
+            (error.password && (
+              <Text style={styles.errsnackbar}>{error.password}</Text>
+            ))}
+        </View>
+      </Snackbar>
     </Screen>
   );
 }

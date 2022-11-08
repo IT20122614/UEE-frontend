@@ -1,48 +1,102 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  Image,
+  Modal,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import AppButton from "../components/common/AppButton";
 import Screen from "../components/common/Screen";
 import { translate } from "../components/common/translator";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
 import RadioGroup from "react-native-radio-buttons-group";
+import { getCampaignById, updateCampaign } from "../api/campaignService";
+import { Snackbar } from "react-native-paper";
 
 export default function SelectedMyCampaignScreen({ navigation, route }) {
-  const campaign = route.params.item;
-  const radioButtonsData = [
-    {
-      id: "1",
-      label: "PENDING",
-      value: "PENDING",
-      selected: campaign.status==="PENDING"? true : false,
-    },
-    {
-      id: "2",
-      label: "HAPPENING",
-      value: "HAPPENING",
-      selected: campaign.status=== "HAPPENING"? true : false,
-    },
-    {
-      id: "3",
-      label: "FINISH",
-      value: "FINISH",
-      selected: campaign.status==="FINISH"? true :false,
-    },
-  ];
+  const campaign1 = route.params.item;
+  
+  const [campaign, setCampaign] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [radioButtons, setRadioButtons] = useState(radioButtonsData);
-  const [selected, setSelected] = useState(campaign.status);
-  function onPressRadioButton(radioButtonsArray) {
+  const [radioButtons, setRadioButtons] = useState('');
+  const [selected, setSelected] = useState(campaign1.status);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [snakVisible, SetSnackVisible] = useState(false);
+
+  useEffect(() => {
+    getCampaign();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getCampaign();
+  }, []);
+
+  const getCampaign = async () => {
+
+    await getCampaignById(campaign1.id)
+      .then(({ data }) => {
+        setCampaign(data);
+        setSelected(data.status);
+        const radioButtonsData = [
+          {
+            id: "1",
+            label: translate("Pending"),
+            value: "PENDING",
+            selected: data.status === "PENDING" ? true : false,
+          },
+          {
+            id: "2",
+            label: translate("Happening"),
+            value: "HAPPENING",
+            selected: data.status === "HAPPENING" ? true : false,
+          },
+          {
+            id: "3",
+            label: translate("Finish"),
+            value: "FINISH",
+            selected: data.status === "FINISH" ? true : false,
+          },
+        ];
+        setRadioButtons(radioButtonsData);
+        setRefreshing(false);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  async function onPressRadioButton(radioButtonsArray) {
     setRadioButtons(radioButtonsArray);
     setModalVisible(!modalVisible);
     setSelected(
       radioButtons.filter((m) => m.selected === true).map((s) => s.value)[0]
     );
+    const status = radioButtons
+      .filter((m) => m.selected === true)
+      .map((s) => s.value)[0];
+    const data = {
+      id: campaign.id,
+      status: status,
+    };
+    await updateCampaign(data)
+      .then(({ data }) => {
+        SetSnackVisible(true);
+      })
+      .catch((error) => console.log(error));
   }
   return (
     <Screen>
-      <ScrollView verticle>
+      <ScrollView
+        verticle
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={styles.container}>
           <View>
             <AppButton
@@ -53,7 +107,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
               ]}
               fontSize={18}
               onPress={() => {
-                navigation.navigate(routes.CREATE_POST,{campaign});
+                navigation.navigate(routes.CREATE_POST, { campaign });
               }}
               disabled={selected === "FINISH" ? false : true}
               icon={
@@ -78,7 +132,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
                 <Text style={styles.titleText}>{translate("Status")}</Text>
                 <Text style={styles.titleText}>{translate("Description")}</Text>
               </View>
-              <View style={[styles.items, { marginLeft: -50 }]}>
+              <View style={[styles.items, { marginLeft: 0 }]}>
                 <Text style={styles.contentText}>{campaign.place}</Text>
                 <Text style={styles.contentText}>{campaign.date}</Text>
                 <Text style={styles.contentText}>{campaign.startTime}</Text>
@@ -95,7 +149,7 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
               </View>
             </View>
             <View style={styles.description}>
-              <Text>{campaign.description}</Text>
+              <Text style={{ fontSize: 16 }}>{campaign.description}</Text>
             </View>
             <View style={styles.buttonContainer}>
               <AppButton
@@ -136,6 +190,23 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
           </View>
         </View>
       </Modal>
+      <Snackbar
+        visible={snakVisible}
+        onDismiss={() => SetSnackVisible(false)}
+        duration={2000}
+        action={{
+          label: translate("OK"),
+          labelStyle: { color: colors.limeGreen, fontSize: 18 },
+          onPress: () => {
+            SetSnackVisible(false);
+          },
+        }}
+        style={{ backgroundColor: colors.black }}
+      >
+        <View>
+          <Text style={styles.snackbar}>{translate("SCSsnackbar")}</Text>
+        </View>
+      </Snackbar>
     </Screen>
   );
 }
@@ -183,14 +254,16 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
     marginLeft: 20,
+    fontSize: 16,
   },
   button: {
-    width: 300,
-    height:40,
+    width: 330,
+    height: 40,
     borderRadius: 5,
+    marginTop: 30,
   },
   postbtn: {
-    width: 110,
+    width: 140,
     height: 40,
     borderRadius: 5,
     marginTop: 10,
@@ -198,17 +271,17 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   changebtn: {
-    width: 120,
-    height: 30,
+    width: 130,
+    height: 40,
     borderRadius: 5,
     alignSelf: "flex-end",
-    marginTop: -35,
+    marginTop: 0,
     marginRight: -10,
   },
   radioButtons: {
     color: colors.primary,
     borderColor: colors.primary,
-    alignItems:"flex-start"
+    alignItems: "flex-start",
   },
 
   //afsaf
@@ -224,7 +297,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     alignItems: "center",
-backgroundColor:colors.lightGreen,
+    backgroundColor: colors.lightGreen,
     shadowColor: colors.lightGreen,
     shadowOffset: {
       width: 0,
@@ -233,5 +306,9 @@ backgroundColor:colors.lightGreen,
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  snackbar: {
+    color: colors.limeGreen,
+    fontSize: 18,
   },
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   RefreshControl,
@@ -19,22 +19,41 @@ import AppFormField from "../components/common/AppFormField";
 import * as Yup from "yup";
 import SubmitButton from "../components/common/SubmitBUtton";
 import * as SecureStore from "expo-secure-store";
-import { addComment } from "../api/postService";
+import { addComment, getPostsById } from "../api/postService";
 
 export default function SelectedPost({ navigation, route }) {
-  const post = route.params.item;
-  const cont = [...post.contributors];
-  const list = cont.map((c) => c.name);
+  const post1 = route.params.item;
+  const [post, setPost] = useState(post1);
+  const [list, setList] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const validationSchema = Yup.object().shape({
     comment: Yup.string(),
   });
+
+  useEffect(() => {
+    getPost();
+  }, []);
+  
+  const getPost = async () => {
+    await getPostsById(post1.id)
+      .then(({ data }) => {
+        setPost(data);
+        setList(
+          data.contributors
+            .filter((con) => con.attendance === "PRESENT")
+            .map((c) => c.name)
+        );
+        setRefreshing(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+    getPost();
   }, []);
 
   const handleSubmit = async (value, { resetForm }) => {
@@ -45,9 +64,11 @@ export default function SelectedPost({ navigation, route }) {
       comment: value.comment,
     };
 
-    await addComment(data).then(() => {
-     navigation.navigate(routes.ALL_POSTS)
-    }).catch((error)=>console.log(error))
+    await addComment(data)
+      .then(() => {
+        onRefresh()
+      })
+      .catch((error) => console.log(error));
 
     resetForm();
   };

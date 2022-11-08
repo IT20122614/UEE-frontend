@@ -73,24 +73,24 @@ export default function CreatePostFormScreen({ navigation, route }) {
             </View>
           </AppForm>
         </View>
-        <Snackbar
-          visible={snakVisible}
-          onDismiss={() => SetSnackVisible(false)}
-          duration={2000}
-          action={{
-            label: translate("OK"),
-            labelStyle: { color: colors.limeGreen, fontSize: 18 },
-            onPress: () => {
-              SetSnackVisible(false);
-            },
-          }}
-          style={{ backgroundColor: colors.black }}
-        >
-          <View>
-            <Text style={styles.snackbar}>{translate("CPFsnackbar")}</Text>
-          </View>
-        </Snackbar>
       </ScrollView>
+      <Snackbar
+        visible={snakVisible}
+        onDismiss={() => SetSnackVisible(false)}
+        duration={2000}
+        action={{
+          label: translate("OK"),
+          labelStyle: { color: colors.limeGreen, fontSize: 18 },
+          onPress: () => {
+            SetSnackVisible(false);
+          },
+        }}
+        style={{ backgroundColor: colors.black }}
+      >
+        <View>
+          <Text style={styles.snackbar}>{translate("CPFsnackbar")}</Text>
+        </View>
+      </Snackbar>
     </Screen>
   );
 }

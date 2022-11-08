@@ -8,7 +8,10 @@ const en = {
   Attendence: "MARK ATTENDED CONTRIBUTORS",
   Change: "CHANGE",
   SaveChanges: "SAVE CHANGES",
-  Delete:"DELETE",
+  Delete: "DELETE",
+  Pending: "PENDING",
+  Happening: "HAPPENING",
+  Finish: "FINISHED",
 
   All_Shramadana_Campaigns: "ALL SHRAMADANA CAMPAIGNS",
   Posts: "POSTS",
@@ -19,7 +22,7 @@ const en = {
   MyPosts: "MY POSTS",
   PointsHistory: "POINTS HISTORY",
   MarkAttendence: "MARK ATTENDENCE",
-  CreatePost:"CREATE A POST",
+  CreatePost: "CREATE A POST",
 
   Location: "LOCATION",
   Place: "PLACE",
@@ -47,7 +50,9 @@ const en = {
   PointHistory: "POINTS HISTORY",
   SeeMore: "See More",
 
-  CPFsnackbar:"POST IS SAVED"
+  CPFsnackbar: "POST IS SAVED",
+  ASsnackbar: "ATTENDANCE SAVED",
+  SCSsnackbar: "STATUS CHANGED SUCCESSFULLY",
 };
 const sn = {
   languageSelector: "සිංහල",
@@ -55,11 +60,14 @@ const sn = {
   OK: "හරි",
   Comments: "අදහස්",
   Submit: "SUBMIT",
-  Post: "POST",
+  Post: "පලකරන්න",
   Attendence: "සහභාගී වූ දායකයින් සලකුණු කරන්න",
   Change: "වෙනස් කරන්න",
   SaveChanges: "වෙනස්කම් සුරකින්න",
   Delete: "මකන්න",
+  Pending: "පොරොත්තුවෙන්",
+  Happening: "සිදුවෙමින් පවතී",
+  Finish: "අවසන්",
 
   All_Shramadana_Campaigns: "සියලුම ශ්‍රමදාන ව්‍යාපාර",
   Posts: "පෝස්ට්",
@@ -96,6 +104,8 @@ const sn = {
   SeeMore: "තවත් බලන්න",
 
   CPFsnackbar: "POST සුරැකේ",
+  ASsnackbar: "පැමිණීම සුරැකිණි",
+  SCSsnackbar: "තත්ත්වය සාර්ථකව වෙනස් විය",
 };
 
 export { en, sn };

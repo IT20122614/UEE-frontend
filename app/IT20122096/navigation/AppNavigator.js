@@ -4,6 +4,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';
 import SectionsScreen from '../screens/SectionsScreen';
 import CampaignsNavigator from './CampaignsNavigator';
+import SectionNavigator from './SectionNavigator';
 
 const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
@@ -20,13 +21,8 @@ export default function AppNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Sections"
-        component={SectionsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="CampaignsNavigator"
-        component={CampaignsNavigator}
+        name="SectionNav"
+        component={SectionNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

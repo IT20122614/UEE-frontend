@@ -10,7 +10,6 @@ export async function saveCampaign(data) {
     headers: { Authorization: header },
   });
 }
-
 export async function getAllCampaign() {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
@@ -28,6 +27,15 @@ export async function getAllCampaignsByUserId() {
     headers: { Authorization: header },
   });
 }
+export async function getCampaignById(campaignId) {
+  const token = await SecureStore.getItemAsync("secure_token");
+  const header = "Bearer " + token;
+  const userId = await SecureStore.getItemAsync("userId");
+
+  return await http.get(endpoint + `/getCampaignById/${campaignId}`, {
+    headers: { Authorization: header },
+  });
+}
 export async function getAllContributors(campaignId) {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;
@@ -41,6 +49,22 @@ export async function saveContribution(data) {
   const header = "Bearer " + token;
 
   return await http.post(endpoint + "/addContribution", data, {
+    headers: { Authorization: header },
+  });
+}
+export async function markAttendance(data) {
+  const token = await SecureStore.getItemAsync("secure_token");
+  const header = "Bearer " + token;
+
+  return await http.post(endpoint + "/markAttendance", data, {
+    headers: { Authorization: header },
+  });
+}
+export async function updateCampaign(data) {
+  const token = await SecureStore.getItemAsync("secure_token");
+  const header = "Bearer " + token;
+
+  return await http.post(endpoint + "/updateCampaign", data, {
     headers: { Authorization: header },
   });
 }

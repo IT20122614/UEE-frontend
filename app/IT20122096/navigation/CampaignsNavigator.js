@@ -36,6 +36,7 @@ export default function CampaignsNavigator() {
               color={colors.primary}
             />
           ),
+          
         }}
       />
       <Tab.Screen

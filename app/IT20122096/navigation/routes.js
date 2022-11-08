@@ -3,12 +3,13 @@ export default Object.freeze({
   LOGIN: "Login",
   REGISTRATION: "Registration",
   SECTIONS: "Sections",
+  SECTIONSNAV: "SectionNav",
   HOME: "CampaignsNavigator",
   PROFILE: "Profile",
   SELECTED_CAMPAIGN: "Campaign",
   CONTRIBUTION_FORM: "ContributionForm",
   ALL_CAMPAIGNS: "All Campaign",
-  ALL_POSTS:"Posts",
+  ALL_POSTS: "Posts",
   SELECTED_POST: "Post",
   COMMENTS: "Comments",
   NEW_CAMPAIGN: "Host",
@@ -18,5 +19,5 @@ export default Object.freeze({
   SELECTED_MY_CAMPAIGN: "SelectedMyCampaign",
   SELECTED_MY_POSTS: "SelectedMyPosts",
   Attendence: "Attendence",
-  CREATE_POST:"CreatePost"
+  CREATE_POST: "CreatePost",
 });

@@ -784,8 +784,7 @@ export default function ProfileScreen({ navigation }) {
       .then(({ data }) => {
         console.log(data);
         setPosts(data);
-    setRefreshing(false);
-
+        setRefreshing(false);
       })
       .catch((error) => console.log(error));
   };
@@ -806,10 +805,7 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.container}>
           <View style={styles.profile}>
             <View style={styles.avatar}>
-              <Image
-                source={{uri:user.image}}
-                style={styles.image}
-              />
+              <Image source={{ uri: user.image }} style={styles.image} />
             </View>
             <View style={styles.details}>
               <Text style={styles.name}>{user.name}</Text>
@@ -914,7 +910,6 @@ export default function ProfileScreen({ navigation }) {
             </View>
           </View>
           <View>
-            <Text>{translate("languageSelector")}</Text>
             <AppButton
               title={"English"}
               onPress={() => {

@@ -12,7 +12,17 @@ export default function AllShramadanaNavigator() {
       <Stack.Screen
         name="All Campaign"
         component={AllShramadanaListScreen}
-        options={{ headerShown: false }}
+        //options={{ headerShown: false }}
+        options={{
+          headerTitle: translate("All_Shramadana_Campaigns"),
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: colors.primary,
+            fontSize: 20,
+            fontWeight: "bold",
+          },
+          headerStyle: { backgroundColor: colors.limeGreen },
+        }}
       />
       <Stack.Screen
         name="Campaign"

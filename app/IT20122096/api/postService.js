@@ -28,6 +28,14 @@ export async function getAllPostsByUserId() {
     headers: { Authorization: header },
   });
 }
+export async function getPostsById(postId) {
+  const token = await SecureStore.getItemAsync("secure_token");
+  const header = "Bearer " + token;
+
+  return await http.get(endpoint + `/getPostsById/${postId}`, {
+    headers: { Authorization: header },
+  });
+}
 export async function deletePost(postId) {
   const token = await SecureStore.getItemAsync("secure_token");
   const header = "Bearer " + token;

@@ -21,7 +21,31 @@ export default function SectionsScreen({ route, navigation }) {
           style={styles.submitbutton}
           fontSize={18}
           onPress={() => {
-            navigation.navigate(routes.HOME)
+            navigation.navigate(routes.HOME);
+          }}
+        />
+        <AppButton
+          title={"Chemical Management"}
+          style={styles.submitbutton}
+          fontSize={18}
+          onPress={() => {
+            navigation.navigate(routes.HOME);
+          }}
+        />
+        <AppButton
+          title={"Plant App"}
+          style={styles.submitbutton}
+          fontSize={18}
+          onPress={() => {
+            navigation.navigate(routes.HOME);
+          }}
+        />
+        <AppButton
+          title={"Recycle App"}
+          style={styles.submitbutton}
+          fontSize={18}
+          onPress={() => {
+            navigation.navigate(routes.HOME);
           }}
         />
       </View>
@@ -44,5 +68,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 6,
     color: colors.white,
+    marginBottom: 40,
   },
 });
