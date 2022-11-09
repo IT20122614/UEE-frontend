@@ -26,6 +26,7 @@ export default function SelectedPost({ navigation, route }) {
   const [post, setPost] = useState(post1);
   const [list, setList] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [isLike, setIsLike] = useState(false);
 
   const validationSchema = Yup.object().shape({
     comment: Yup.string(),
@@ -35,6 +36,17 @@ export default function SelectedPost({ navigation, route }) {
     getPost();
   }, []);
 
+  const like = () => {
+    setIsLike(!isLike);
+    const post2 = post;
+    if (!isLike) {
+      post2.likeCount = post2.likeCount + 1;
+      setPost(post2);
+    } else {
+      post2.likeCount = post2.likeCount - 1;
+      setPost(post2);
+    }
+  };
   const getPost = async () => {
     await getPostsById(post1.id)
       .then(({ data }) => {
@@ -99,9 +111,12 @@ export default function SelectedPost({ navigation, route }) {
               <View style={styles.icons}>
                 <View style={styles.like}>
                   <MaterialCommunityIcons
-                    name="cards-heart"
+                    name={isLike ? "cards-heart" : "heart-outline"}
                     size={33}
                     color={colors.primary}
+                    onPress={() => {
+                      like();
+                    }}
                   />
                   <Text style={[styles.contentText, { marginLeft: 5 }]}>
                     {post.likeCount}
