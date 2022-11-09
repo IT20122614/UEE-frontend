@@ -7,29 +7,29 @@ import AppFormField from "./../components/common/AppFormField";
 import colors from "../config/colors";
 import SubmitButton from "../components/common/SubmitBUtton";
 import routes from "../navigation/routes";
-import {getCurrentUser, loginUser } from "../api/authService";
+import { getCurrentUser, loginUser } from "../api/authService";
 import { Snackbar } from "react-native-paper";
 
-export default function LoginScreen({ route, navigation }) {
+export default function LoginScreen({ navigation }) {
   const [snakVisible, SetSnackVisible] = useState(false);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string(),
     password: Yup.string(),
   });
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { restForm }) => {
     await loginUser(values)
-      .then(async() => {
+      .then(async () => {
         SetSnackVisible(true);
         await getCurrentUser();
         setTimeout(() => {
           navigation.navigate(routes.SECTIONSNAV);
         }, 2500);
-        
       })
       .catch((error) => {
         console.log(error);
       });
+    restForm();
   };
   return (
     <Screen>
@@ -42,8 +42,8 @@ export default function LoginScreen({ route, navigation }) {
             email: "",
             password: "",
           }}
-          onSubmit={(values) => {
-            handleSubmit(values);
+          onSubmit={(values, { restForm }) => {
+            handleSubmit(values, { restForm });
           }}
           validationSchema={validationSchema}
         >

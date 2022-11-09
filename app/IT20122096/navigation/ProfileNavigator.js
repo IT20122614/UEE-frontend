@@ -10,6 +10,8 @@ import SelectedMyCampaignScreen from "../screens/SelectedMyCampaignScreen";
 import SelectedMyPostScreen from "../screens/SelectedMyPostScreen";
 import AttendenceScreen from "../screens/AttendenceScreen";
 import CreatePostFormScreen from "../screens/CreatePostFormScreen";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Stack = createStackNavigator();
 export default function ProfileNavigator() {
@@ -21,6 +23,17 @@ export default function ProfileNavigator() {
         options={{
           headerTitle: translate("Profile"),
           headerTitleAlign: "center",
+          // headerRight: (props) => (
+          //   <Ionicons
+          //     name="ios-settings"
+          //     size={33}
+          //     color={colors.primary}
+          //     style={{ marginRight: 10 }}
+          //     onPress={() => {
+          //       console.log("click")
+          //     }}
+          //   />
+          // ),
           headerTitleStyle: {
             color: colors.primary,
             fontSize: 20,

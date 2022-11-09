@@ -1,11 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AllShramadanaListScreen from "../screens/AllShramadanaListScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import PostsScreen from '../screens/PostsScreen';
-import CreateCampaignHost from '../screens/CreateCampaignHost';
-import LeaderBoardScreen from '../screens/LeaderBoardScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import colors from '../config/colors';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ProfileNavigator from './ProfileNavigator';
@@ -68,7 +63,7 @@ export default function CampaignsNavigator() {
         }}
       />
       <Tab.Screen
-        name="Points"
+        name="Point"
         component={LeaderBoardNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (

@@ -20,7 +20,7 @@ export default function RegistrationScreen({ route, navigation }) {
   const [error, setError] = useState({});
   const [snakVisible, SetSnackVisible] = useState(false);
   const [errorSnakVisible, SetErrorSnackVisible] = useState(false);
-  const handleSubmit = async (value) => {
+  const handleSubmit = async (value, { resetForm }) => {
     const data = {
       name: value.name,
       email: value.email,
@@ -40,9 +40,10 @@ export default function RegistrationScreen({ route, navigation }) {
         }, 2500);
       })
       .catch((error) => {
-        SetErrorSnackVisible(true)
+        SetErrorSnackVisible(true);
         setError({ email: error.response.data });
       });
+    resetForm();
   };
   return (
     <Screen>
@@ -58,8 +59,8 @@ export default function RegistrationScreen({ route, navigation }) {
               password: "",
               confirmPassword: "",
             }}
-            onSubmit={(values) => {
-              handleSubmit(values);
+            onSubmit={(values, { resetForm }) => {
+              handleSubmit(values, { resetForm });
             }}
             validationSchema={validationSchema}
           >

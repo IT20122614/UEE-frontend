@@ -23,7 +23,7 @@ export default function CreatePostFormScreen({ navigation, route }) {
       .label("Images"),
     description: Yup.string(),
   });
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { resetForm }) => {
     const userId = await SecureStore.getItemAsync("userId");
     const data = {
       userId: userId,
@@ -32,14 +32,15 @@ export default function CreatePostFormScreen({ navigation, route }) {
       image: values.images[0],
     };
 
-    await savePost(data).then(() => {
-      SetSnackVisible(true);
-      setTimeout(() => {
-        navigation.navigate(routes.MY_POST);
-      }, 2500);
-    }).then((error)=>console.log(error))
-
-    
+    await savePost(data)
+      .then(() => {
+        SetSnackVisible(true);
+        setTimeout(() => {
+          navigation.navigate(routes.MY_POST);
+        }, 2500);
+      })
+      .then((error) => console.log(error));
+    resetForm();
   };
   return (
     <Screen>
@@ -50,7 +51,9 @@ export default function CreatePostFormScreen({ navigation, route }) {
               images: [],
               description: "",
             }}
-            onSubmit={(values) => handleSubmit(values)}
+            onSubmit={(values, { resetForm }) =>
+              handleSubmit(values, { resetForm })
+            }
             validationSchema={validationSchema}
           >
             <View style={styles.fields}>

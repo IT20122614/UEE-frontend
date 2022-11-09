@@ -1,41 +1,8 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import Screen from '../components/common/Screen'
-import PointListItem from '../components/Profile/PointListItem';
-import colors from '../config/colors';
-
-const points = [
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-];
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import Screen from "../components/common/Screen";
+import PointListItem from "../components/Profile/PointListItem";
+import colors from "../config/colors";
 
 export default function PointsHistoryScreen({ route }) {
   const points = route.params.points;
@@ -51,7 +18,7 @@ export default function PointsHistoryScreen({ route }) {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop:20
+    marginTop: 20,
   },
   pointCard: {
     flexDirection: "row",

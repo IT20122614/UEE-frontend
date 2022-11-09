@@ -34,7 +34,7 @@ export default function SelectedPost({ navigation, route }) {
   useEffect(() => {
     getPost();
   }, []);
-  
+
   const getPost = async () => {
     await getPostsById(post1.id)
       .then(({ data }) => {
@@ -66,7 +66,7 @@ export default function SelectedPost({ navigation, route }) {
 
     await addComment(data)
       .then(() => {
-        onRefresh()
+        onRefresh();
       })
       .catch((error) => console.log(error));
 
@@ -137,13 +137,15 @@ export default function SelectedPost({ navigation, route }) {
                     {translate("Comments")}
                   </Text>
                   <Text
-                    style={[{ padding: 5, color: colors.primary }]}
+                    style={[
+                      { padding: 5, color: colors.primary, marginRight: 10 },
+                    ]}
                     onPress={() => {
                       navigation.navigate(routes.COMMENTS, { post });
                     }}
                   >
                     {post.commentsCount + " "}
-                    {translate("Comments").toLowerCase() + " > "}
+                    {translate("Comments").toLowerCase()}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "column", alignItems: "center" }}>

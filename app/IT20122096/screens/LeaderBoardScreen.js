@@ -1,62 +1,55 @@
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
+import { getAllPoints } from "../api/pointService";
 import Screen from "../components/common/Screen";
-import { translate } from "../components/common/translator";
 import PointListItem from "../components/points/PointListItem";
-import colors from "../config/colors";
-
-const points = [
-  {
-    id: "1",
-    userId: "123",
-    name: "Chamath Kavindya",
-    image: require("../assets/avatar.png"),
-    points: 110,
-    month: "11",
-    year: "2022",
-  },
-  {
-    id: "2",
-    userId: "123",
-    name: "Chamath Kavindya",
-    image: require("../assets/avatar.png"),
-    points: 130,
-    month: "11",
-    year: "2022",
-  },
-  {
-    id: "3",
-    userId: "123",
-    name: "Chamath Kavindya",
-    image: require("../assets/avatar.png"),
-    points: 150,
-    month: "11",
-    year: "2022",
-  },
-];
 
 export default function LeaderBoardScreen() {
-  const filterLeaderBoard = () => {
+  const [points, setPoints] = useState([]);
+
+  useEffect(() => {
+    userPoints();
+  }, []);
+
+  const userPoints = async () => {
+    await getAllPoints()
+      .then(async ({ data }) => {
+        filterLeaderBoard(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const filterLeaderBoard = (points) => {
     const date = new Date();
     const year = date.getFullYear().toString();
-    const month = (date.getMonth()+1).toString();
-
-    const filterByMonthandYear = points.filter((point)=>point.month===month && point.year===year)
+    const month = date.getMonth();
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const filterByMonthandYear = points.filter(
+      (point) => point.month === months[month] && point.year === year
+    );
     const sortedPoints = filterByMonthandYear.sort((a, b) =>
       a.points < b.points ? 1 : -1
     );
-
-    return filterByMonthandYear;
+    setPoints(sortedPoints);
   };
-  console.log(points);
   return (
     <Screen>
       <ScrollView>
-        {/* <View style={styles.header}>
-          <Text style={styles.text}>{translate("LeaderBoard")}</Text>
-        </View> */}
         <View>
-          {filterLeaderBoard().map((point,index) => (
+          {points.map((point, index) => (
             <PointListItem key={index} index={index} point={point} />
           ))}
         </View>
@@ -64,19 +57,4 @@ export default function LeaderBoardScreen() {
     </Screen>
   );
 }
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.limeGreen,
-    height: 60,
-    width: "100%",
-    marginTop: 40,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: colors.primary,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-});
+

@@ -27,14 +27,18 @@ export default function SelectedMyPostScreen({ navigation, route }) {
   const handleSubmit = (value) => {
     navigation.navigate(routes.LOGIN);
   };
-  const deletePosts=async(id) => {
-    await deletePost(id).then(() => {
-      SetSnackVisible(true);
-      setTimeout(() => {
-        navigation.navigate(routes.MY_POST);
-      }, 2500);
-    }).catch((error)=>{console.log(error)})
-  }
+  const deletePosts = async (id) => {
+    await deletePost(id)
+      .then(() => {
+        SetSnackVisible(true);
+        setTimeout(() => {
+          navigation.navigate(routes.MY_POST);
+        }, 2500);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <Screen>
       <ScrollView verticle>
@@ -109,13 +113,15 @@ export default function SelectedMyPostScreen({ navigation, route }) {
                     {translate("Comments")}
                   </Text>
                   <Text
-                    style={[{ padding: 5, color: colors.primary }]}
+                    style={[
+                      { padding: 5, color: colors.primary, marginRight: 10 },
+                    ]}
                     onPress={() => {
                       navigation.navigate(routes.COMMENTS, { post });
                     }}
                   >
                     {post.commentsCount + " "}
-                    {translate("Comments").toLowerCase() + " > "}
+                    {translate("Comments").toLowerCase()}
                   </Text>
                 </View>
                 <View style={{ flexDirection: "column", alignItems: "center" }}>

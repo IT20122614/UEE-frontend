@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Image,
+  Modal,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -10,7 +11,6 @@ import {
 import AppButton from "../components/common/AppButton";
 import Screen from "../components/common/Screen";
 import { en, sn } from "../constants/localization";
-import * as Localization from "expo-localization";
 import i18n from "i18n-js";
 import routes from "../navigation/routes";
 import { translate, setLanguage } from "../components/common/translator";
@@ -20,729 +20,23 @@ import PostsListItem from "../components/Profile/PostsListItem";
 import PointListItem from "../components/Profile/PointListItem";
 translate;
 import * as SecureStore from "expo-secure-store";
-import {
-  getAllCampaign,
-  getAllCampaignsByUserId,
-} from "../api/campaignService";
-import { getCurrentUser, logout } from "../api/authService";
+import { getAllCampaignsByUserId } from "../api/campaignService";
+import { logout } from "../api/authService";
 import { getUser } from "../api/userService";
 import { getAllPostsByUserId } from "../api/postService";
-const campaigns1 = [
-  {
-    id: "1",
-    host: "fsafsag",
-    place: "Gampaha",
-    date: "10/10/2022",
-    startTime: "10.00AM",
-    endTime: "18.00PM",
-    description:
-      "fafsaffffffffffffffffffffffffffffffffffffffffffffffffffffsafasfsffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-    image: require("../assets/campaign.jpg"),
-    status: "PENDING",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "2",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "3",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "4",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "5",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "6",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "7",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "8",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "9",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-  {
-    id: "10",
-    host: "fsafsag",
-    place: "fsafsag",
-    date: "fsafsag",
-    startTime: "fsafsag",
-    endTime: "fsafsag",
-    description: "fsafsag",
-    image: require("../assets/campaign.jpg"),
-    status: "fsafsag",
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-        image: require("../assets/avatar.png"),
-        attendence: true,
-      },
-    ],
-  },
-];
-const posts1 = [
-  {
-    id: "1",
-    campaignId: "123456",
-    userId: "123456",
-    campaign: { place: "Gamapaha", date: "2022-11-04" },
-    description: "asfsgsagsagasgasga",
-    image: require("../assets/post.jpg"),
-    likeCount: 5,
-    commentsCount: 5,
-    comments: [
-      {
-        id: "1",
-        postId: "",
-        comment:
-          "asfsasgs agasgsa gasgsagsag sfsfasf fasf asfs a fsafsfsafa fsafsafsa fasfasf fsaf ",
-        userId: "",
-        userName: "Chamath Kavindy",
-        image: require("../assets/avatar.png"),
-      },
-      {
-        id: "2",
-        postId: "",
-        comment: "asfsasgsagasgsagasgsagsag",
-        userId: "",
-        userName: "Chamath Kavindy",
-        image: require("../assets/avatar.png"),
-      },
-    ],
-    contributors: [
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "2",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "3",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "1",
-        userId: "123",
-        name: "chamath Kavindya",
-      },
-    ],
-  },
-  {
-    id: "1",
-    campaignId: "123456",
-    userId: "123456",
-    campaign: { place: "Gamapaha", date: "2022-11-04" },
-    description: "asfsgsagsagasgasga",
-    image: require("../assets/post.jpg"),
-    likeCount: 5,
-    commentsCount: 5,
-    comments: [
-      {
-        id: "1",
-        postId: "",
-        comment:
-          "asfsasgs agasgsa gasgsagsag sfsfasf fasf asfs a fsafsfsafa fsafsafsa fasfasf fsaf ",
-        userId: "",
-        userName: "Chamath Kavindy",
-        image: require("../assets/avatar.png"),
-      },
-      {
-        id: "2",
-        postId: "",
-        comment: "asfsasgsagasgsagasgsagsag",
-        userId: "",
-        userName: "Chamath Kavindy",
-        image: require("../assets/avatar.png"),
-      },
-    ],
-    contributors: [
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-      {
-        id: "6",
-        userId: "623",
-        name: "chamath Kavindya",
-      },
-    ],
-  },
-];
-const points = [
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-  {
-    year: "2022",
-    month: "JANUARY",
-    point: 150,
-  },
-];
+import { getAllPointsByUserId } from "../api/pointService";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ProfileScreen({ navigation }) {
   const [campaigns, setCampaigns] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [points, setPoints] = useState([]);
+  const [userPoint, setUserPoint] = useState("");
   const [locale, setLocale] = useState("");
   const [user, setUser] = useState({});
   const [refreshing, setRefreshing] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   i18n.fallbacks = true;
   i18n.translations = { en, sn };
@@ -753,12 +47,14 @@ export default function ProfileScreen({ navigation }) {
     handleLocale();
     getAllCampaigns();
     getAllPosts();
+    userPoints();
   }, []);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getAllCampaigns();
     getAllPosts();
+    userPoints();
   }, []);
 
   const handleLocale = async () => {
@@ -770,6 +66,17 @@ export default function ProfileScreen({ navigation }) {
     await getUser().then(({ data }) => {
       setUser(data);
     });
+  };
+
+  const userPoints = async () => {
+    await getAllPointsByUserId()
+      .then(async ({ data }) => {
+        setPoints(data);
+        const userId = await SecureStore.getItemAsync("userId");
+        const point = data.filter((p) => p.user.id === userId)[0].points;
+        setUserPoint(point);
+      })
+      .catch((error) => console.log(error));
   };
 
   const getAllCampaigns = async () => {
@@ -808,9 +115,26 @@ export default function ProfileScreen({ navigation }) {
               <Image source={{ uri: user.image }} style={styles.image} />
             </View>
             <View style={styles.details}>
-              <Text style={styles.name}>{user.name}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.name}>{user.name}</Text>
+                <Ionicons
+                  name="ios-settings"
+                  size={33}
+                  color={colors.primary}
+                  style={styles.settings}
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}
+                />
+              </View>
               <Text style={styles.email}>{user.email}</Text>
-              <Text style={styles.point}>150 Points</Text>
+              <Text style={styles.point}>{userPoint + " "}Points</Text>
             </View>
           </View>
           <View style={styles.campaigns}>
@@ -909,34 +233,73 @@ export default function ProfileScreen({ navigation }) {
               )}
             </View>
           </View>
-          <View>
-            <AppButton
-              title={"English"}
+        </View>
+      </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Ionicons
+              name="close"
+              size={40}
+              color={colors.primary}
+              style={styles.closebtn}
               onPress={() => {
-                setLocale("en");
-                setLanguage("en");
-                handleLocale();
-                //navigation.navigate(routes.ALL_CAMPAIGNS);
+                setModalVisible(false);
               }}
             />
-            <AppButton
-              title={"සිංහල"}
-              onPress={() => {
-                setLocale("sn");
-                setLanguage("sn");
-                handleLocale();
-                //navigation.navigate(routes.ALL_CAMPAIGNS);
-              }}
-            />
+
+            <View style={styles.modalcontent}>
+              <AppButton
+                title={"English"}
+                onPress={() => {
+                  setLocale("en");
+                  setLanguage("en");
+                  handleLocale();
+                  //navigation.navigate(routes.ALL_CAMPAIGNS);
+                }}
+                style={styles.langbtn}
+                fontSize={20}
+              />
+              <AppButton
+                title={"සිංහල"}
+                onPress={() => {
+                  setLocale("sn");
+                  setLanguage("sn");
+                  handleLocale();
+                  //navigation.navigate(routes.ALL_CAMPAIGNS);
+                }}
+                style={styles.langbtn}
+                fontSize={20}
+              />
+            </View>
             <AppButton
               title={"Logout"}
               onPress={() => {
                 logOut();
               }}
+              style={styles.logout}
+              fontSize={20}
+              color={colors.primary}
+              icon={
+                <MaterialCommunityIcons
+                  name="logout"
+                  size={33}
+                  color={colors.primary}
+                  style={{ marginLeft: -30, marginRight: 10 }}
+                />
+              }
             />
           </View>
         </View>
-      </ScrollView>
+      </Modal>
     </Screen>
   );
 }
@@ -1008,5 +371,60 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 30,
     color: colors.primary,
+  },
+  settings: {
+    alignSelf: "flex-end",
+    marginRight: 10,
+  },
+  closebtn: {
+    alignSelf: "flex-start",
+    marginLeft: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -35,
+    alignSelf: "flex-end",
+  },
+  modalcontent: {
+    alignItems: "center",
+    marginTop: 200,
+  },
+  logout: {
+    width: 200,
+    height: 40,
+    marginBottom: 5,
+    marginRight: 20,
+    marginLeft: -40,
+    marginTop: 340,
+    backgroundColor: colors.lightGreen,
+  },
+  langbtn: {
+    width: 200,
+    height: 40,
+    marginBottom: 10,
+    marginRight: 20,
+    marginLeft: 20,
+    borderRadius: 5,
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderColor: colors.primary,
+    borderWidth: 1,
+    height: "82%",
+    padding: 10,
+    alignItems: "center",
+    backgroundColor: colors.lightGreen,
+    shadowColor: colors.lightGreen,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

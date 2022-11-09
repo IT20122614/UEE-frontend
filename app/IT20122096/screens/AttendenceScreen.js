@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Screen from "../components/common/Screen";
 import Checkbox from "expo-checkbox";
 import colors from "../config/colors";
@@ -19,10 +10,8 @@ import { Snackbar } from "react-native-paper";
 
 export default function AttendenceScreen({ route }) {
   const campaign = route.params.campaign;
-  const [isChecked, setChecked] = useState(false);
   const [contributors, setContributors] = useState([]);
   const [snakVisible, SetSnackVisible] = useState(false);
-
 
   useEffect(() => {
     getContributors();
@@ -59,6 +48,7 @@ export default function AttendenceScreen({ route }) {
     contributors.forEach((con) => {
       let cont = {
         id: con.id,
+        userId: campaign.host,
         attendance: con.attendance,
       };
       contrinution.push(cont);
@@ -67,7 +57,7 @@ export default function AttendenceScreen({ route }) {
       .then(({ data }) => {
         SetSnackVisible(true);
         onRefresh();
-        console.log(data)
+        console.log(data);
       })
       .catch((error) => console.log(error));
   };

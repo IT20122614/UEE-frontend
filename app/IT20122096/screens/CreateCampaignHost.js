@@ -41,7 +41,7 @@ export default function CreateCampaignHost({ navigation }) {
     const data = {
       host: userId,
       place: values.place,
-      date:date,
+      date: date,
       startTime: values.startTime,
       endTime: values.endTime,
       description: values.description,

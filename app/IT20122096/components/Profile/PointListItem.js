@@ -8,7 +8,7 @@ export default function PointListItem({item}) {
       <Text style={[styles.pointText, { flex: 1.5 }]}>{item.year}</Text>
       <Text style={[styles.pointText, { flex: 4 }]}>{ item.month}</Text>
       <Text style={[styles.pointText, { flex: 0, alignSelf: "flex-end" }]}>
-        {item.point}
+        {item.points}
       </Text>
     </View>
   );

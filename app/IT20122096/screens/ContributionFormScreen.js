@@ -14,7 +14,7 @@ import { saveContribution } from "../api/campaignService";
 
 export default function ContributionFormScreen({ route, navigation }) {
   const campaign = route.params.campaign;
-console.log("DA",campaign)
+  console.log("DA", campaign);
   const [snakVisible, SetSnackVisible] = useState(false);
   const validationSchema = Yup.object().shape({
     FirstName: Yup.string().min(5),
@@ -33,14 +33,14 @@ console.log("DA",campaign)
       contribution: value.Contribution,
     };
 
-    await saveContribution(data).then(() => {
-      SetSnackVisible(true);
-      setTimeout(() => {
-        navigation.navigate(routes.ALL_CAMPAIGNS);
-      }, 2500);
-    }).catch((error)=>console.log(error))
-
-    
+    await saveContribution(data)
+      .then(() => {
+        SetSnackVisible(true);
+        setTimeout(() => {
+          navigation.navigate(routes.ALL_CAMPAIGNS);
+        }, 2500);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <Screen>

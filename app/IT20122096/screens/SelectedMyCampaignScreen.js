@@ -21,10 +21,10 @@ import { Snackbar } from "react-native-paper";
 
 export default function SelectedMyCampaignScreen({ navigation, route }) {
   const campaign1 = route.params.item;
-  
+
   const [campaign, setCampaign] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [radioButtons, setRadioButtons] = useState('');
+  const [radioButtons, setRadioButtons] = useState("");
   const [selected, setSelected] = useState(campaign1.status);
   const [refreshing, setRefreshing] = React.useState(false);
   const [snakVisible, SetSnackVisible] = useState(false);
@@ -39,7 +39,6 @@ export default function SelectedMyCampaignScreen({ navigation, route }) {
   }, []);
 
   const getCampaign = async () => {
-
     await getCampaignById(campaign1.id)
       .then(({ data }) => {
         setCampaign(data);

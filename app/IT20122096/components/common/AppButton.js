@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
 
-export default function AppButton({ title, onPress, style, fontSize, icon, disabled }) {
+export default function AppButton({ title, onPress, style, fontSize, icon, disabled,color=colors.white }) {
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -12,7 +11,9 @@ export default function AppButton({ title, onPress, style, fontSize, icon, disab
       onPress={onPress}
     >
       {icon}
-      <Text style={[styles.text, { fontSize: fontSize }]}>{title}</Text>
+      <Text style={[styles.text, { fontSize: fontSize, color: color }]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 }

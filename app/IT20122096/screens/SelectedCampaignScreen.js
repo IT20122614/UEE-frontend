@@ -2,7 +2,7 @@ import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import AppButton from "../components/common/AppButton";
 import Screen from "../components/common/Screen";
-import {translate} from "../components/common/translator";
+import { translate } from "../components/common/translator";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
 
@@ -42,7 +42,7 @@ export default function SelectedCampaignScreen({ navigation, route }) {
                 style={styles.button}
                 fontSize={18}
                 onPress={() => {
-                  navigation.navigate(routes.CONTRIBUTION_FORM,{campaign});
+                  navigation.navigate(routes.CONTRIBUTION_FORM, { campaign });
                 }}
               />
             </View>

@@ -3,25 +3,20 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import colors from '../../config/colors';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function PointListItem({index,point}) {
+export default function PointListItem({ index, point }) {
   return (
     <View style={styles.container}>
       <View style={styles.number}>
         <Text style={styles.pointtext}>{index + 1}</Text>
       </View>
       <View style={styles.avatar}>
-        <Image
-          style={styles.image}
-          source={point.image}
-        />
+        <Image style={styles.image} source={{ uri: point.user.image }} />
       </View>
       <View style={styles.name}>
-        <Text style={styles.nametext}>
-          {point.name}
-        </Text>
+        <Text style={styles.nametext}>{point.user.name}</Text>
       </View>
       <View style={styles.point}>
-        <Text style={styles.pointtext}>{ point.points}</Text>
+        <Text style={styles.pointtext}>{point.points}</Text>
       </View>
       <View style={styles.icon}>
         <MaterialCommunityIcons
