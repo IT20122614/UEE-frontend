@@ -15,13 +15,19 @@ import {
 import MultipleTextField from "./Common/MultipleTextField";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import axios from "axios";
 
 export default function EventCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState(""); //content
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [title, setTitle] = useState("");
+  const [imageURL, setimageURL] = useState("");
+  const [hour, sethour] = useState("");
+  const [minutes, setminutes] = useState("");
+  const [daytime, setdaytime] = useState("");
 
   function addNewEvents() {
     Alert.alert("Alert Title", "My Alert Msg", [
@@ -32,6 +38,26 @@ export default function EventCreateForm() {
       },
       { text: "OK", onPress: () => console.log("OK Pressed") },
     ]);
+    let timeData = hour + ":" + minutes + " " + daytime;
+
+    const eventData = {
+      title: title,
+      userName: "kavindu",
+      imageUrl: imageURL,
+      content: address,
+      time: timeData,
+      date: date.toDateString(),
+    };
+
+    axios
+      .post(`http://10.0.2.2:8081/api/v1/event/add-new`, eventData)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(eventData);
   }
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -61,8 +87,8 @@ export default function EventCreateForm() {
             <Text style={styles.titleStyle}>Title</Text>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeNumber}
-              value={number}
+              onChangeText={setTitle}
+              value={title}
               placeholder="Title here"
             />
           </View>
@@ -70,8 +96,8 @@ export default function EventCreateForm() {
             <Text style={styles.titleStyle}>Image URL</Text>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeNumber}
-              value={number}
+              onChangeText={setimageURL}
+              value={imageURL}
               placeholder="Image URL here"
             />
           </View>
@@ -124,8 +150,8 @@ export default function EventCreateForm() {
               <View style={styles.hourBox1}>
                 <TextInput
                   style={styles.dateInput}
-                  onChangeText={onChangeNumber}
-                  value={number}
+                  onChangeText={sethour}
+                  value={hour}
                   placeholder="hh"
                   keyboardType="numeric"
                   maxLength={2}
@@ -134,8 +160,8 @@ export default function EventCreateForm() {
               <View style={[styles.MinutsBox2]}>
                 <TextInput
                   style={styles.dateInput}
-                  onChangeText={onChangeNumber}
-                  value={number}
+                  onChangeText={setminutes}
+                  value={minutes}
                   placeholder="mm"
                   maxLength={2}
                 />
@@ -143,8 +169,8 @@ export default function EventCreateForm() {
               <View style={[styles.AMPMBox2]}>
                 <TextInput
                   style={styles.dateInput}
-                  onChangeText={onChangeNumber}
-                  value={number}
+                  onChangeText={setdaytime}
+                  value={daytime}
                   placeholder="AM"
                 />
               </View>

@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,9 +17,11 @@ import MultipleTextField from "./Common/MultipleTextField";
 export default function ComplainCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
   const [address, setAddress] = React.useState("");
+  const [title, settitle] = React.useState("");
+  const [imageUrl, setimageUrl] = React.useState("");
 
   function addNewComplain() {
-    Alert.alert("Alert Title", "My Alert Msg", [
+    alert("Alert Title", "My Alert Msg", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -26,6 +29,23 @@ export default function ComplainCreateForm() {
       },
       { text: "OK", onPress: () => console.log("OK Pressed") },
     ]);
+
+    const eventData = {
+      title: title,
+      userName: "kavindu",
+      imageUrl: imageUrl,
+      content: address,
+    };
+
+    axios
+      .post(`http://10.0.2.2:8081/api/v1/complain/add-new`, eventData)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(eventData);
   }
 
   return (
@@ -38,8 +58,8 @@ export default function ComplainCreateForm() {
           <Text style={styles.titleStyle}>Title</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={settitle}
+            value={title}
             placeholder="Title here"
           />
         </View>
@@ -47,8 +67,8 @@ export default function ComplainCreateForm() {
           <Text style={styles.titleStyle}>Image URL</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={setimageUrl}
+            value={imageUrl}
             placeholder="Image URL here"
           />
         </View>

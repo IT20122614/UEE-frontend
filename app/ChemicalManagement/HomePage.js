@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,30 +12,47 @@ import {
   Button,
 } from "react-native";
 import HomeEventList from "./Common/HomeEventList";
+import axios from "axios";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    name: "Jhone1",
-    title: "First Item First Item First ItemFirst Item",
-    date: "25/02/2022",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    name: "Jhone",
-    title: "Second Item",
-    date: "25/02/2022",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d742",
-    name: "Jhone",
-    title: "Third Item",
-    date: "25/02/2022",
-  },
-];
+// const DATA = [
+//   {
+//     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+//     name: "Jhone",
+//     title: "Pollution is the introduction of harmful materials",
+//     date: "25/02/2022",
+//   },
+//   {
+//     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+//     name: "Jhone",
+//     title: "Second Item",
+//     date: "25/02/2022",
+//   },
+//   {
+//     id: "58694a0f-3da1-471f-bd96-145571e29d742",
+//     name: "Jhone",
+//     title: "Third Item",
+//     date: "25/02/2022",
+//   },
+// ];
 
 export default function HomePage({ navigation }) {
   const renderItem = ({ item }) => <HomeEventList title={item} />;
+
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    function getComments() {
+      axios
+        .get(`http://10.0.2.2:8081/api/v1/event/display-all-events`)
+        .then((result) => {
+          setEvents(result.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    getComments();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,7 +85,7 @@ export default function HomePage({ navigation }) {
           </View>
           <View>
             <FlatList
-              data={DATA}
+              data={events}
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
             />

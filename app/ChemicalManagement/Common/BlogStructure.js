@@ -13,8 +13,8 @@ import {
 } from "react-native";
 import avatarBoy from "../assets/avatarBoy.png";
 
-export default function BlogStructure({ item }) {
-  console.log(item);
+export default function BlogStructure({ title }) {
+  console.log(title);
   return (
     <View style={styles.item}>
       <View style={styles.row}>
@@ -26,9 +26,7 @@ export default function BlogStructure({ item }) {
         </View>
       </View>
       <View>
-        <Text style={styles.blogTitle}>
-          Environmental pollution is unwarranted
-        </Text>
+        <Text style={styles.blogTitle}>{title.title}</Text>
       </View>
       <View style={styles.blogImage}>
         <Image
@@ -52,10 +50,7 @@ export default function BlogStructure({ item }) {
         </View>
       </View>
       <View>
-        <Text style={styles.contentStyle}>
-          hbvuh fjvhnuie fvh fiehv i eifj sfjefihe fjehfjieh iewf ewi fef
-          ieifefi fifrighighrigri ghr g rhg jvn vjbv bvj bvgb djvbvg
-        </Text>
+        <Text style={styles.contentStyle}>{title.content}</Text>
       </View>
     </View>
   );

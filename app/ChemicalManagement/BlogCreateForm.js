@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   StyleSheet,
   Text,
@@ -17,6 +18,36 @@ import MultipleTextField from "./Common/MultipleTextField";
 export default function BlogCreateForm() {
   const [number, onChangeNumber] = React.useState(null);
   const [address, setAddress] = React.useState("");
+  const [title, settitle] = React.useState("");
+  const [imageUrl, setimageUrl] = React.useState("");
+
+  function addNewBlog() {
+    alert("Alert Title", "My Alert Msg", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
+
+    const eventData = {
+      title: title,
+      userName: "kavindu",
+      imageUrl: imageUrl,
+      content: address,
+    };
+
+    axios
+      .post(`http://10.0.2.2:8081/api/v1/blog/add-new`, eventData)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(eventData);
+  }
 
   return (
     <SafeAreaView style={styles.mainSheet}>
@@ -28,8 +59,8 @@ export default function BlogCreateForm() {
           <Text style={styles.titleStyle}>Title</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={settitle}
+            value={title}
             placeholder="Title here"
           />
         </View>
@@ -37,8 +68,8 @@ export default function BlogCreateForm() {
           <Text style={styles.titleStyle}>Image URL</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
+            onChangeText={setimageUrl}
+            value={imageUrl}
             placeholder="Image URL here"
           />
         </View>
@@ -64,7 +95,7 @@ export default function BlogCreateForm() {
         <View style={styles.createNewBtnMain}>
           <Button
             title="Create New"
-            onPress={() => Alert.alert("Cannot press this one")}
+            onPress={addNewBlog}
             style={styles.createNewBtn}
             color="#629c45"
           />

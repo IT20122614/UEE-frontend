@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,10 +14,28 @@ import {
 import avatarBoy from "../assets/avatarBoy.png";
 import Icon from "react-native-vector-icons/AntDesign";
 import IconC from "react-native-vector-icons/MaterialCommunityIcons";
+import axios from "axios";
 
 export default function ComplainStructure({ title }) {
   const [like, setLike] = useState(155);
   const [clickLike, setclickLike] = useState(true);
+  const [clickComment, setClickComment] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [comment, setComments] = useState([]);
+  const id = title.id;
+  function getComments() {
+    axios
+      .get(`http://10.0.2.2:8081/api/v1/complain/get-comment/${id}`)
+      .then((result) => {
+        setComments(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  useEffect(() => {
+    getComments();
+  }, []);
 
   function likeThisPost() {
     setclickLike(false);
@@ -27,7 +45,30 @@ export default function ComplainStructure({ title }) {
     setclickLike(true);
     setLike(like - 1);
   }
-  function commentThisPost() {}
+  function commentThisPost() {
+    setClickComment(true);
+  }
+  function uncommentThisPost() {
+    setClickComment(false);
+  }
+  function addComment() {
+    const comment = {
+      complainId: id,
+      userName: "kavindu",
+      comment: newComment,
+    };
+
+    axios
+      .post(`http://10.0.2.2:8081/api/v1/complain/add-comments`, comment)
+      .then((result) => {
+        console.log(result.data);
+        setNewComment("");
+        getComments();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <View style={styles.item}>
       <View style={styles.row}>
@@ -44,7 +85,7 @@ export default function ComplainStructure({ title }) {
       <View style={styles.blogImage}>
         <Image
           source={{
-            uri: "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
+            uri: title.imgURL,
           }}
           style={{
             width: "100%",
@@ -73,13 +114,23 @@ export default function ComplainStructure({ title }) {
           <Text style={styles.dateTimeText}>Support {like}</Text>
         </View>
         <View style={styles.TimeDateBox4}>
-          <IconC
-            style={styles.bellStyle}
-            name="comment"
-            size={22}
-            color="#fff"
-            onPress={commentThisPost}
-          />
+          {clickComment ? (
+            <IconC
+              style={styles.bellStyle}
+              name="comment"
+              size={22}
+              color="#fff"
+              onPress={uncommentThisPost}
+            />
+          ) : (
+            <IconC
+              style={styles.bellStyle}
+              name="comment-outline"
+              size={22}
+              color="#fff"
+              onPress={commentThisPost}
+            />
+          )}
         </View>
         <View style={styles.TimeDateBox4}>
           {clickLike ? (
@@ -101,6 +152,40 @@ export default function ComplainStructure({ title }) {
           )}
         </View>
       </View>
+      <View>
+        {clickComment ? (
+          <View style={styles.commentAll}>
+            {comment.map((data, index) => {
+              return (
+                <View style={styles.singleComment} key={index}>
+                  <View style={styles.rowComment}>
+                    <View style={styles.profileBox}>
+                      <Image source={avatarBoy} style={styles.profileImage} />
+                    </View>
+                    <View style={styles.nameBox}>
+                      <Text>{data.userName}</Text>
+                    </View>
+                  </View>
+                  <Text>{data.comment}</Text>
+                </View>
+              );
+            })}
+            <View>
+              <TextInput
+                style={styles.commentInput}
+                onChangeText={setNewComment}
+                value={newComment}
+                placeholder="Comment..."
+              />
+            </View>
+            <TouchableOpacity style={styles.commentBtn} onPress={addComment}>
+              <Text>Add Comment</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View></View>
+        )}
+      </View>
     </View>
   );
 }
@@ -108,6 +193,39 @@ export default function ComplainStructure({ title }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  commentInput: {
+    height: 30,
+    borderWidth: 2,
+    borderColor: "white",
+    margin: 3,
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginTop: 15,
+  },
+  commentBtn: {
+    backgroundColor: "orange",
+    width: 100,
+    padding: 4,
+    marginLeft: "60%",
+  },
+  singleComment: {
+    backgroundColor: "#6BFB74",
+    marginTop: 10,
+    borderRadius: 10,
+    padding: 5,
+  },
+  commentAll: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 10,
+    padding: 10,
+    marginLeft: 10,
+  },
+  rowComment: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginLeft: 5,
   },
   profileImage: {
     width: 26,

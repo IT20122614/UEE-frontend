@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,36 +13,53 @@ import {
 } from "react-native";
 import EventStructure from "./Common/EventStructure";
 import Icon from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-    content:
-      "Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
-    imgURL:
-      "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-    content:
-      "Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
-    imgURL:
-      "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-    content:
-      "Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
-    imgURL:
-      "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
-  },
-];
+// const DATA = [
+//   {
+//     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+//     title: "Air and water currents carry pollution",
+//     content:
+//       "Air and water currents carry pollution. Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
+//     imgURL:
+//       "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
+//   },
+//   {
+//     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+//     title: "Second Item",
+//     content:
+//       "Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
+//     imgURL:
+//       "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
+//   },
+//   {
+//     id: "58694a0f-3da1-471f-bd96-145571e29d72",
+//     title: "Third Item",
+//     content:
+//       "Environmental pollution is unwarranted disposal of mass or energy into earth's natural resource pool such as water, land, or air that results in long- or short-term detriment to the atmosphere and its ecological health to negatively impact the living beings and their life both quantitatively and qualitatively",
+//     imgURL:
+//       "https://www.hatkosoundbarrier.com/wp-content/uploads/2020/02/What-are-the-Types-of-Environmental-Pollution-3.jpg",
+//   },
+// ];
 
 export default function EventsPage({ navigation }) {
   const renderItem = ({ item }) => <EventStructure title={item} />;
+
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    function getComments() {
+      axios
+        .get(`http://10.0.2.2:8081/api/v1/event/display-all-events`)
+        .then((result) => {
+          setEvents(result.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    getComments();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +84,7 @@ export default function EventsPage({ navigation }) {
       </View>
       <View>
         <FlatList
-          data={DATA}
+          data={events}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
