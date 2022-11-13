@@ -17,7 +17,7 @@ export default function LoginScreen({ navigation }) {
     email: Yup.string(),
     password: Yup.string(),
   });
-  const handleSubmit = async (values, { restForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     await loginUser(values)
       .then(async () => {
         SetSnackVisible(true);
@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation }) {
       .catch((error) => {
         console.log(error);
       });
-    restForm();
+    resetForm();
   };
   return (
     <Screen>
@@ -42,8 +42,8 @@ export default function LoginScreen({ navigation }) {
             email: "",
             password: "",
           }}
-          onSubmit={(values, { restForm }) => {
-            handleSubmit(values, { restForm });
+          onSubmit={(values, { resetForm }) => {
+            handleSubmit(values, { resetForm });
           }}
           validationSchema={validationSchema}
         >
